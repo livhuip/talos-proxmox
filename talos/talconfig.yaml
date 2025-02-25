@@ -3,7 +3,7 @@
 # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
 talosVersion: v1.9.4
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
-kubernetesVersion: v1.32.2
+kubernetesVersion: v1.31.0
 
 clusterName: kubernetes
 endpoint: https://10.0.10.100:6443
@@ -32,7 +32,7 @@ nodes:
     controlPlane: true
     networkInterfaces:
       - deviceSelector:
-          hardwareAddr: "8e:cc:e4:a6:3c:42"
+          hardwareAddr: "b2:b5:62:94:63:70"
         dhcp: false
         addresses:
           - "10.0.10.101/24"
@@ -51,7 +51,7 @@ nodes:
     controlPlane: true
     networkInterfaces:
       - deviceSelector:
-          hardwareAddr: "da:8b:51:ac:80:a3"
+          hardwareAddr: "be:9d:2f:bf:ab:43"
         dhcp: false
         addresses:
           - "10.0.10.102/24"
@@ -70,7 +70,7 @@ nodes:
     controlPlane: true
     networkInterfaces:
       - deviceSelector:
-          hardwareAddr: "e2:b6:24:2c:6d:e6"
+          hardwareAddr: "ca:04:0a:3b:34:a8"
         dhcp: false
         addresses:
           - "10.0.10.103/24"
@@ -89,7 +89,7 @@ nodes:
     controlPlane: false
     networkInterfaces:
       - deviceSelector:
-          hardwareAddr: "02:7b:2f:d8:7b:cd"
+          hardwareAddr: "a6:c4:b4:ab:d4:44"
         dhcp: false
         addresses:
           - "10.0.10.121/24"
@@ -106,7 +106,7 @@ nodes:
     controlPlane: false
     networkInterfaces:
       - deviceSelector:
-          hardwareAddr: "3a:69:36:84:b9:5b"
+          hardwareAddr: "52:75:0b:34:e5:82"
         dhcp: false
         addresses:
           - "10.0.10.122/24"
@@ -128,4 +128,3 @@ controlPlane:
   patches:
     - "@./patches/controller/admission-controller-patch.yaml"
     - "@./patches/controller/cluster.yaml"
-
