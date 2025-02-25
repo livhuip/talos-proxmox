@@ -1,2 +1,6 @@
-- op: remove
+- op: add
   path: /cluster/apiServer/admissionControl
+  value:
+    - ValidatingAdmissionPolicy
+    - MutatingAdmissionWebhook
+    - ValidatingAdmissionWebhook
