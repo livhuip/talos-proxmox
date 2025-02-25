@@ -1,0 +1,6 @@
+kubernetes-talos-cp-01.yaml
+kubernetes-talos-cp-02.yaml
+kubernetes-talos-cp-03.yaml
+kubernetes-talos-worker-01.yaml
+kubernetes-talos-worker-02.yaml
+talosconfig
