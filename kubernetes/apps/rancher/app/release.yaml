@@ -16,4 +16,4 @@ spec:
   values:
     replicas: 1
     hostname: ranchertalos.${SECRET_DOMAIN}
-    bootstrapPassword: "${SECRET_RANCHER_ADMIN_PASSWORD}"
+    bootstrapPassword: ""
