@@ -19,4 +19,4 @@ resources:
   - ./portainer.yaml
   - ./piraeus.yaml
   - ./backube.yaml
-  - ./kyverno
+  - ./kyverno.yaml
