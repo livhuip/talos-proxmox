@@ -20,3 +20,4 @@ resources:
   - ./piraeus.yaml
   - ./backube.yaml
   - ./kyverno.yaml
+  - ./minio.yaml

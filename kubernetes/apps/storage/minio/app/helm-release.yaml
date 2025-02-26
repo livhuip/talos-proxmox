@@ -3,6 +3,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: &app minio
+  namespace: storage
 spec:
   interval: 30m
   chart:
@@ -43,7 +44,7 @@ spec:
               repository: quay.io/minio/minio
               tag: RELEASE.2025-01-20T14-49-07Z
             env:
-              TZ: "${TIMEZONE}"
+              TZ: "Africa/Johannesburg"
               MINIO_UPDATE: "off"
               MINIO_PROMETHEUS_URL: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
               MINIO_PROMETHEUS_JOB_ID: minio
@@ -99,48 +100,55 @@ spec:
             #   key: MINIO_PROMETHEUS_TOKEN
 
     ingress:
-      minio:
-        className: traefik
+      main:
+        enabled: true
+        className: internal
         annotations:
-          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
-          traefik.ingress.kubernetes.io/router.middlewares: "networking-rfc1918-ips@kubernetescrd"
-          hajimari.io/icon: "mdi:pail"
-          hajimari.io/enable: "true"
+          #   hajimari.io/enable: "true"
+          #   hajimari.io/appName: "Minio Console"
+          #   hajimari.io/group: "storage"
+          #   hajimari.io/icon: mdi:pail
+          #   hajimari.io/instance: "admin"
+          #   gethomepage.dev/enabled: "true"
+          #   gethomepage.dev/description: S3 storage
+          #   gethomepage.dev/group: Storage
+          #   gethomepage.dev/icon: sh-minio.svg
+          #   gethomepage.dev/name: Minio
+          #   gethomepage.dev/app: minio
+          external-dns.alpha.kubernetes.io/target: internal.${SECRET_DOMAIN}
         hosts:
-          - host: &console-host "minio.home.${SECRET_DOMAIN}"
+          - host: minio.${SECRET_DOMAIN}
             paths:
               - path: /
                 pathType: Prefix
                 service:
-                  identifier: minio
-                  port: *console-port
-        tls:
-          - secretName: "wildcard-internal-${SECRET_DOMAIN/./-}-tls"
-            hosts:
-              - *console-host
+                  identifier: main
+                  port: http
       s3:
-        className: traefik
+        enabled: true
+        className: internal
         annotations:
-          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
-          external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN:=domain}"
-          hajimari.io/enable: "false"
+          external-dns.alpha.kubernetes.io/target: internal.${SECRET_DOMAIN}
+          # hajimari.io/enable: "false"
+          nginx.ingress.kubernetes.io/whitelist-source-range: "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+          nginx.ingress.kubernetes.io/proxy-connect-timeout: "180"
+          nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+          nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
+          nginx.ingress.kubernetes.io/configuration-snippet: |
+            chunked_transfer_encoding off;
         hosts:
-          - host: &api-host "cdn.${SECRET_DOMAIN}"
+          - host: s3.${SECRET_DOMAIN}
             paths:
               - path: /
                 pathType: Prefix
                 service:
-                  identifier: minio
-                  port: *api-port
-        tls:
-          - secretName: "wildcard-${SECRET_DOMAIN/./-}-tls"
-            hosts:
-              - *api-host
+                  identifier: main
+                  port: api
 
     persistence:
       config:
         type: nfs
-        server: "${CORE_NFS_SERVER:=nas0}"
-        path: "/mnt/user/Objects"
+        server: "192.168.86.200"
+        path: "/mnt/datastore/k3sdata/minio"
         globalMounts:
           - path: /data
