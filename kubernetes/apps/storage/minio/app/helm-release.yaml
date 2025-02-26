@@ -138,7 +138,7 @@ spec:
         hosts:
           - host: s3.${SECRET_DOMAIN}
             paths:
-              - path: /
+              - path: "/"
                 pathType: Prefix
                 service:
                   identifier: main
