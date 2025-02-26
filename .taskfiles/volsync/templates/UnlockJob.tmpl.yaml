@@ -23,5 +23,5 @@ spec:
       volumes:
         - name: repository
           nfs:
-            server: 10.0.1.15
-            path: /mnt/user/backups/volsync
+            server: 192.168.86.200
+            path: /mnt/datastore/kubebackup/volsync
