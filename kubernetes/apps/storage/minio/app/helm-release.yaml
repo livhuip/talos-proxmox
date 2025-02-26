@@ -16,13 +16,13 @@ spec:
         namespace: flux-system
   values:
     defaultPodOptions:
-      affinity:
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchLabels:
-                  app.kubernetes.io/name: *app
-              topologyKey: "kubernetes.io/hostname"
+      # affinity:
+      #   podAntiAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       - labelSelector:
+      #           matchLabels:
+      #             app.kubernetes.io/name: *app
+      #         topologyKey: "kubernetes.io/hostname"
     controllers:
       minio:
         strategy: RollingUpdate
