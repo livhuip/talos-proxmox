@@ -121,7 +121,7 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  identifier: main
+                  identifier: minio
                   port: http
       s3:
         enabled: true
@@ -141,7 +141,7 @@ spec:
               - path: "/"
                 pathType: Prefix
                 service:
-                  identifier: main
+                  identifier: minio
                   port: api
 
     persistence:
