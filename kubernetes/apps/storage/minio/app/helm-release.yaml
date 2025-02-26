@@ -118,11 +118,11 @@ spec:
         hosts:
           - host: minio.${SECRET_DOMAIN}
             paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  identifier: main
-                  port: http
+              # - path: /
+              pathType: Prefix
+              service:
+                identifier: main
+                port: http
       s3:
         enabled: true
         className: internal
