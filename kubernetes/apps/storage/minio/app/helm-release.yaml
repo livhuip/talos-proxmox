@@ -101,7 +101,7 @@ spec:
             #   key: MINIO_PROMETHEUS_TOKEN
 
     ingress:
-      main:
+      minio:
         enabled: true
         className: internal
         annotations:
