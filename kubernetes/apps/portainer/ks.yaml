@@ -17,7 +17,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      # VOLSYNC_CLAIM: portainer-pvc
+      VOLSYNC_CLAIM: portainer-pvc
       VOLSYNC_CAPACITY: 1Gi
       VOLSYNC_START_MINUTE: "11"
       VOLSYNC_CACHE_CAPACITY: "1Gi"
