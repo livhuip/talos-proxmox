@@ -17,4 +17,4 @@ spec:
   resources:
     requests:
       storage: "${VOLSYNC_CAPACITY}"
-  storageClassName: "${VOLSYNC_STORAGECLASS:-cephfs}"
+  storageClassName: "${VOLSYNC_STORAGECLASS:-ceph-rbd}"

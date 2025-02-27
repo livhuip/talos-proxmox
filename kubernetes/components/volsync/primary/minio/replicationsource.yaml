@@ -17,11 +17,11 @@ spec:
       monthly: 3
     copyMethod: "${VOLSYNC_COPY_METHOD:-Snapshot}"
     ### Source (PVC-to-be-backed-up and its snapshot)
-    storageClassName: "${VOLSYNC_STORAGECLASS:-cephfs-delete}"
+    storageClassName: "${VOLSYNC_STORAGECLASS:-ceph-rbd}"
     accessModes: ["${VOLSYNC_ACCESSMODES:-ReadWriteOnce}"]
-    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-cephfs-snapshot}" # same as source
+    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-ceph-rbd-snapshot}" # same as source
     cacheCapacity: "${VOLSYNC_CACHE_CAPACITY:-1Gi}"
-    cacheStorageClassName: "${VOLSYNC_CACHE_SNAPSHOTCLASS:-cephfs-delete}"
+    cacheStorageClassName: "${VOLSYNC_CACHE_SNAPSHOTCLASS:-ceph-rbd}"
     cacheAccessModes: ["${VOLSYNC_CACHE_ACCESSMODES:-ReadWriteOnce}"]
     moverSecurityContext:
       runAsUser: ${APP_UID:-568}
