@@ -43,6 +43,13 @@ spec:
           mon:
             disabled: false
             interval: 45s
+    ingress:
+      dashboard:
+        ingressClassName: "internal"
+        host:
+          name: rook-main.hayani.xyz
+          path: "/"
+
     monitoring:
       enabled: true
       createPrometheusRules: true
