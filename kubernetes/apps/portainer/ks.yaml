@@ -7,7 +7,7 @@ spec:
   interval: 1h
   path: ./kubernetes/apps/portainer/app
   components:
-    - ../../../../componets/volsync/primary
+    - ../../../componets/volsync/primary
   prune: true
   sourceRef:
     kind: GitRepository
