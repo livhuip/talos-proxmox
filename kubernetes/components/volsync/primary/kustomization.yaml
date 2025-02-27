@@ -5,5 +5,5 @@ kind: Component
 resources:
   - claim.yaml
   - minio
-  - nfs
+  # - nfs
   # - b2
