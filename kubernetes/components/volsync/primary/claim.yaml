@@ -13,7 +13,7 @@ spec:
   dataSourceRef:
     kind: ReplicationDestination
     apiGroup: volsync.backube
-    name: "${APP}-nfs-dst"
+    name: "${APP}-minio-dst" #"${APP}-nfs-dst"
   resources:
     requests:
       storage: "${VOLSYNC_CAPACITY}"
