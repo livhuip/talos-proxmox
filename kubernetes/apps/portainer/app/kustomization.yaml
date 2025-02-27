@@ -4,4 +4,4 @@ kind: Kustomization
 namespace: network
 resources:
   - ./helmrelease.yaml
-  # - ./pvc.yaml
+  - ./pvc.yaml
