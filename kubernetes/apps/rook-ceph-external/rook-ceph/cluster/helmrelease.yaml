@@ -61,6 +61,29 @@ spec:
         - ip: 192.168.86.12
       interval: 15s
 
+    # cephBlockPools:
+    #   - name: ceph-blockpool
+    #     spec:
+    #       failureDomain: host
+    #       replicated:
+    #         size: 3
+    #     storageClass:
+    #       enabled: true
+    #       name: ceph-block
+    #       isDefault: true
+    #       reclaimPolicy: Delete
+    #       allowVolumeExpansion: true
+    #       volumeBindingMode: Immediate
+    #       parameters:
+    #         imageFormat: "2"
+    #         imageFeatures: layering
+    #         csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
+    #         csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
+    #         csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
+    #         csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
+    #         csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
+    #         csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
+    #         csi.storage.k8s.io/fstype: ext4
     # -- Settings for the block pool snapshot class
     # @default -- See [RBD Snapshots](../Storage-Configuration/Ceph-CSI/ceph-csi-snapshot.md#rbd-snapshots)
     cephBlockPoolsVolumeSnapshotClass:
@@ -71,6 +94,12 @@ spec:
       # see https://rook.io/docs/rook/v1.10/Storage-Configuration/Ceph-CSI/ceph-csi-snapshot/#rbd-snapshots for available configuration
       parameters: # Only pool needs to be specified as snapshotter secret and clusterID are already pre-selected
         pool: talos-proxmox
+    # cephBlockPoolsVolumeSnapshotClass:
+    #   enabled: true
+    #   name: csi-ceph-blockpool
+    #   isDefault: false
+    #   deletionPolicy: Delete
+
     cephFileSystemVolumeSnapshotClass:
       enabled: true
       name: cephfs-snapshot
