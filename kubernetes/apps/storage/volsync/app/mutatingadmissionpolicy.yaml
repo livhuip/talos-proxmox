@@ -106,7 +106,7 @@
 #           ]
 
 ---
-apiVersion: admissionregistration.k8s.io/v1
+apiVersion: admissionregistration.k8s.io/v1alpha1
 kind: MutatingAdmissionPolicyBinding
 metadata:
   name: volsync-mover-jitter
@@ -148,7 +148,7 @@ spec:
             imagePullPolicy: "IfNotPresent"
             command: ["sh", "-c", "sleep $(shuf -i 0-60 -n 1)"]
 ---
-apiVersion: admissionregistration.k8s.io/v1
+apiVersion: admissionregistration.k8s.io/v1alpha1
 kind: MutatingAdmissionPolicyBinding
 metadata:
   name: volsync-mover-nfs
