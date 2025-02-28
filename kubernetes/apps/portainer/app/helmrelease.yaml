@@ -20,7 +20,7 @@ spec:
   values:
     persistence:
       enabled: true
-      existingClaim: "portainer-pvc"
+      existingClaim: "portainer"
       size: 128Mi
       storageClass: ceph-rbd
     ingress:
