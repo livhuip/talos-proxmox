@@ -9,4 +9,4 @@ resources:
   - ./flux-operator/ks.yaml
   - ./discord-alert.yml
   - ./discord-provider.yml
-  - ./discord-url.secret.sops.yal
+  - ./discord-url.secret.sops.yaml
