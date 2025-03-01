@@ -9,6 +9,8 @@ spec:
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph-external
+    - name: volsync
+      namespace: storage
   chart:
     spec:
       chart: portainer
