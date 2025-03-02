@@ -69,31 +69,43 @@ spec:
         ports:
           http:
             port: &port 80
+    # ingress:
+    #   app:
+    #     enabled: true
+    #     className: external
+    #     annotations:
+    #       hajimari.io/icon: mdi:lock
+    #       gethomepage.dev/enabled: "true"
+    #       gethomepage.dev/name: Vaultwarden
+    #       gethomepage.dev/description: Open-source password manager compatible with Bitwarden clients.
+    #       gethomepage.dev/group: Applications
+    #       gethomepage.dev/icon: vaultwarden.png
+    #       gethomepage.dev/pod-selector: >-
+    #         app in (
+    #           vaultwarden
+    #         )
+    #     hosts:
+    #       - host: &host https://vaultwarden.${SECRET_DOMAIN} #"{{ .Release.Name }}.${SECRET_DOMAIN}"
+    #         paths:
+    #           - path: /
+    #             service:
+    #               identifier: app
+    #               port: *port
+    #     tls:
+    #       - hosts:
+    #           - *host
     ingress:
       app:
-        enabled: true
         className: external
         annotations:
-          hajimari.io/icon: mdi:lock
-          gethomepage.dev/enabled: "true"
-          gethomepage.dev/name: Vaultwarden
-          gethomepage.dev/description: Open-source password manager compatible with Bitwarden clients.
-          gethomepage.dev/group: Applications
-          gethomepage.dev/icon: vaultwarden.png
-          gethomepage.dev/pod-selector: >-
-            app in (
-              vaultwarden
-            )
+          external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
         hosts:
-          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+          - host: "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
               - path: /
                 service:
                   identifier: app
-                  port: *port
-        tls:
-          - hosts:
-              - *host
+                  port: http
     persistence:
       config:
         enabled: true
