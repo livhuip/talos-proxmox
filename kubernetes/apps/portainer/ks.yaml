@@ -8,6 +8,7 @@ spec:
   path: ./kubernetes/apps/portainer/app
   components:
     - ../../../components/volsync
+    - ../../../components/gatus
   prune: true
   sourceRef:
     kind: GitRepository
