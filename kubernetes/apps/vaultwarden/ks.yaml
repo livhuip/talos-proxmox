@@ -6,7 +6,7 @@ metadata:
   name: &app vaultwarden
   namespace: flux-system
 spec:
-  targetNamespace: default
+  targetNamespace: vaultwarden
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
@@ -16,7 +16,9 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-ops-kubernetes
+    name: flux-system
+    namespace: flux-system
+  # targetNamespace: vaultwarden
   dependsOn:
     # - name: crunchy-postgres-operator-cluster
     # - name: external-secrets-stores
