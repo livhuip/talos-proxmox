@@ -22,3 +22,5 @@ resources:
 # components:
 #   - ../../components/namespace
 #   - ../../components/flux/alerts
+components:
+  - ../../components/common
