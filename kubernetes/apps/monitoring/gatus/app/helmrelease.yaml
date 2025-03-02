@@ -144,6 +144,9 @@ metadata:
   name: gatus
 spec:
   interval: 1h
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph-external
   chart:
     spec:
       chart: app-template

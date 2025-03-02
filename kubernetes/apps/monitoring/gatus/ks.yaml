@@ -42,9 +42,9 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  dependsOn:
-    - name: rook-ceph-cluster
-      namespace: rook-ceph-external
+  # dependsOn:
+  #   - name: rook-ceph-operator
+  #     namespace: rook-ceph-external
   interval: 1h
   path: ./kubernetes/apps/monitoring/gatus/app
   postBuild:
