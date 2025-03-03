@@ -10,6 +10,9 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   path: ./kubernetes/apps/storage/volsync/app
+  components:
+    # - ../../../components/volsync
+    - ../../../../components/gatus/guarded
   prune: true
   sourceRef:
     kind: GitRepository
@@ -19,3 +22,6 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 5m
+  postBuild:
+    substitute:
+      APP: *app
