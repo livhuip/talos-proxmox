@@ -4,6 +4,6 @@ kind: Kustomization
 namespace: database
 resources:
   - ./pvc.yaml
-  # - ./cluster.yaml
+  - ./cluster.yaml
   - ./secret.sops.yaml
   - ./gatus.yaml
