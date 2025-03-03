@@ -45,7 +45,7 @@ spec:
         optional: false
       - name: cluster-secrets
         kind: Secret
-      - optional: false
+        optional: false
   sourceRef:
     kind: GitRepository
     name: flux-system
