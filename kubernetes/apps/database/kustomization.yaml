@@ -12,3 +12,5 @@ resources:
   - ./dragonfly/ks.yaml
   # - ./emqx/ks.yaml
   # - ./influx/ks.yaml
+components:
+  - ../../components/common
