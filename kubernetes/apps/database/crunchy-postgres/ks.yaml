@@ -58,11 +58,11 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  dependsOn:
-    - name: crunchy-postgres-operator
-      namespace: database
-    # - name: external-secrets-stores
-    #   namespace: external-secrets
+  # dependsOn:
+  #   - name: crunchy-postgres-operator
+  #     namespace: database
+  # - name: external-secrets-stores
+  #   namespace: external-secrets
   path: ./kubernetes/apps/database/crunchy-postgres/cluster-vector
   prune: true
   sourceRef:
