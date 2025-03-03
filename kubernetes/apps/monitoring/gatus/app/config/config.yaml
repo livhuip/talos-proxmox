@@ -10,7 +10,9 @@ debug: false
 ui:
   title: Status | Gatus
   header: Status
-# alerting:
+alerting:
+  discord:
+    webhook-url: ${discord-url}
 #   pushover:
 #     application-token: ${CUSTOM_PUSHOVER_APP_TOKEN}
 #     user-key: ${CUSTOM_PUSHOVER_USER_KEY}
@@ -34,8 +36,12 @@ endpoints:
       dns-resolver: tcp://1.1.1.1:53
     conditions:
       - "[STATUS] == 404"
+    # alerts:
+    #   - type: pushover
     alerts:
-      - type: pushover
+      - type: discord
+        description: "healthcheck failed"
+        send-on-resolved: true
   # - name: status
   #   group: external
   #   url: https://vaultwarden.hayani.xyz
