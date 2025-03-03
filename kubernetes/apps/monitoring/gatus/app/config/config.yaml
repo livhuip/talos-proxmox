@@ -10,9 +10,9 @@ debug: false
 ui:
   title: Status | Gatus
   header: Status
-alerting:
-  discord:
-    webhook-url: ${DISCORD_URL}
+# alerting:
+#   discord:
+#     webhook-url: ${DISCORD_URL}
 #   pushover:
 #     application-token: ${CUSTOM_PUSHOVER_APP_TOKEN}
 #     user-key: ${CUSTOM_PUSHOVER_USER_KEY}
