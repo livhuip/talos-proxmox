@@ -9,9 +9,9 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  dependsOn:
-    - name: minio
-      namespace: storage
+  # dependsOn:
+  #   - name: minio
+  #     namespace: storage
   path: ./kubernetes/apps/database/crunchy-postgres/app
   prune: true
   sourceRef:
@@ -33,11 +33,11 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  dependsOn:
-    - name: crunchy-postgres-operator
-      namespace: database
-    # - name: external-secrets-stores
-    #   namespace: external-secrets
+  # dependsOn:
+  #   - name: crunchy-postgres-operator
+  #     namespace: database
+  # - name: external-secrets-stores
+  #   namespace: external-secrets
   path: ./kubernetes/apps/database/crunchy-postgres/cluster
   prune: true
   sourceRef:
@@ -83,9 +83,9 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  dependsOn:
-    - name: crunchy-postgres-operator
-      namespace: database
+  # dependsOn:
+  #   - name: crunchy-postgres-operator
+  #     namespace: database
   path: ./kubernetes/apps/database/crunchy-postgres/users
   prune: true
   sourceRef:
