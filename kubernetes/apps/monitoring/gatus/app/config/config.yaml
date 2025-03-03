@@ -26,22 +26,22 @@ connectivity:
     target: 192.168.86.100:53
     interval: 1m
 endpoints:
-  # - name: flux-webhook
-  #   group: external
-  #   url: https://flux-webhook.${SECRET_DOMAIN}
-  #   interval: 1m
-  #   client:
-  #     dns-resolver: tcp://1.1.1.1:53
-  #   conditions:
-  #     - "[STATUS] == 404"
-  #   alerts:
-  #     - type: pushover
-  - name: status
+  - name: flux-webhook
     group: external
-    url: https://vaultwarden.hayani.xyz
+    url: https://flux-webhook.${SECRET_DOMAIN}
     interval: 1m
     client:
       dns-resolver: tcp://1.1.1.1:53
-      ignore-redirect: true
     conditions:
-      - "[STATUS] == 200"
+      - "[STATUS] == 404"
+    alerts:
+      - type: pushover
+  # - name: status
+  #   group: external
+  #   url: https://vaultwarden.hayani.xyz
+  #   interval: 1m
+  #   client:
+  #     dns-resolver: tcp://1.1.1.1:53
+  #     ignore-redirect: true
+  #   conditions:
+  #     - "[STATUS] == 200"
