@@ -30,13 +30,13 @@ spec:
           app.kubernetes.io/name: crunchy-postgres-vector
       replicas: &replica 1
       dataVolumeClaimSpec:
-        storageClassName: openebs-hostpath
+        storageClassName: ceph-rbd
         accessModes: ["ReadWriteOnce"]
         resources:
           requests:
             storage: 10Gi
       walVolumeClaimSpec:
-        storageClassName: openebs-hostpath
+        storageClassName: ceph-rbd
         accessModes: ["ReadWriteOnce"]
         resources:
           requests:
@@ -131,17 +131,17 @@ spec:
             incremental: "30 3-23 * * *" # Every hour except 01:30-2:30
         - name: repo2
           s3: &r2
-            bucket: crunchy-pgo
+            bucket: db-backups
             endpoint: ${R2_ENDPOINT}
             region: us-east-1 #https://developers.cloudflare.com/r2/api/s3/api/#bucket-region
           schedules:
             full: "30 2 * * 0" # Sunday at 2am
             differential: "30 2 * * 1-6" # Mon-Sat at 2am
-         # RGW
+          # RGW
         - name: repo3
           s3: &minio
-            bucket: postgresql-maxi
-            endpoint: s3.franta.us
+            bucket: postgresql-cunchy
+            endpoint: s3.{SECRET_S3_ENDPOINT}
             region: us-east-1
           schedules:
             full: "10 1 * * 0" # Sunday at 1am

@@ -10,7 +10,7 @@ spec:
   storageClassName: nfs-slow #csi-driver-nfs
   nfs:
     server: ${NAS_IP}
-    path: /emc1/kubernetes/postgres
+    path: /mnt/datastore/kubebackup/postgres
   mountOptions:
     - nfsvers=4.2
     - hard
