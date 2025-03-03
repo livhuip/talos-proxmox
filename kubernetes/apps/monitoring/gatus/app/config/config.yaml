@@ -12,7 +12,7 @@ ui:
   header: Status
 alerting:
   discord:
-    webhook-url: ${DISCORD_WEBHOOK_URL}
+    webhook-url: https://discord.com/api/webhooks/1346150371252240496/0kb6YgGjGZ_XsBxwSFvarvjfneT3g9HDvavJv-T49TRBgpf7lweNyXYSuo8rYb3wc95k #${DISCORD_WEBHOOK_URL}
 #   pushover:
 #     application-token: ${CUSTOM_PUSHOVER_APP_TOKEN}
 #     user-key: ${CUSTOM_PUSHOVER_USER_KEY}
@@ -30,7 +30,7 @@ connectivity:
 endpoints:
   - name: flux-webhook
     group: external
-    url: https://flux-webhook.${SECRET_DOMAIN}
+    url: https://flux-webhook.hayani.xyz
     interval: 1m
     client:
       dns-resolver: tcp://1.1.1.1:53
