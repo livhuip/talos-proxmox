@@ -5,7 +5,7 @@ kind: Kustomization
 namespace: monitoring
 resources:
   - ./discord.secret.sops.yaml
-  - ./helmrelease.yaml
+  # - ./helmrelease.yaml
   - ./pvc.yaml
   - ./rbac.yaml
 configMapGenerator:
