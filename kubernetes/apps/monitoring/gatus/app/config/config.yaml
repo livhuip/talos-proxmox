@@ -12,7 +12,7 @@ ui:
   header: Status
 alerting:
   discord:
-    webhook-url: ${discord_webhook} #https://discord.com/api/webhooks/1261085857734197320/WaLqd-mqTpqTLyu4iUnrLJ-0NPzUH9VYDM-Eb7lkew3war63NwQRZV_WQ3d3VWXJRIfn
+    webhook-url: ${DISCORD_WEBHOOK_URL}
 #   pushover:
 #     application-token: ${CUSTOM_PUSHOVER_APP_TOKEN}
 #     user-key: ${CUSTOM_PUSHOVER_USER_KEY}
