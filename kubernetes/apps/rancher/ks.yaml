@@ -6,6 +6,9 @@ metadata:
 spec:
   interval: 1h
   path: ./kubernetes/apps/rancher/app
+  components:
+    # - ../../../components/volsync
+    - ../../../components/gatus/external
   prune: true
   sourceRef:
     kind: GitRepository
