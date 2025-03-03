@@ -21,3 +21,7 @@ resources:
   - ./backube.yaml
   - ./kyverno.yaml
   - ./csi-driver-nfs.yaml
+  - ./crunchy-userinit.yaml
+  - ./crunchy-users.yaml
+  - ./crunchydata.yaml
+  - ./dragonfly.yaml
