@@ -67,9 +67,9 @@ spec:
               - name: cluster-settings
                 kind: ConfigMap
                 optional: false
-              # - name: cluster-secrets
-              #   kind: Secret
-              #   optional: false
+              - name: cluster-secrets
+                kind: Secret
+                optional: false
       target:
         group: kustomize.toolkit.fluxcd.io
         kind: Kustomization
