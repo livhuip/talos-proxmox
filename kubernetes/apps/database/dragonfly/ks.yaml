@@ -33,9 +33,9 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  dependsOn:
-    - name: dragonfly
-      namespace: database
+  # dependsOn:
+  #   - name: dragonfly
+  #     namespace: database
   healthCheckExprs:
     - apiVersion: dragonflydb.io/v1alpha1
       kind: Dragonfly
