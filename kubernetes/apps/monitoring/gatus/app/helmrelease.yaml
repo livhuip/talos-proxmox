@@ -102,7 +102,7 @@ spec:
       app:
         className: external
         hosts:
-          - host: status.${SECRET_DOMAINS}
+          - host: status.${SECRET_DOMAIN}
             paths:
               - path: /
                 service:
