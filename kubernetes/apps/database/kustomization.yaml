@@ -8,7 +8,7 @@ resources:
   # Pre Flux-Kustomizations
   # - ./namespace.yaml
   # Flux-Kustomizations
-  - ./crunchy-postgres/ks.yaml
+  - ./crunchy-postgres-operator/ks.yaml
   - ./dragonfly/ks.yaml
   # - ./emqx/ks.yaml
   # - ./influx/ks.yaml
