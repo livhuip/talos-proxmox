@@ -7,5 +7,5 @@ resources:
   - ./external-secrets/ks.yaml
   - ./onepassword-connect/ks.yaml
 components:
-  - ../../../components/common
+  - ../../components/common
 # - ../../components/flux/alerts
