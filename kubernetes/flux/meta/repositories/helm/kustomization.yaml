@@ -25,3 +25,4 @@ resources:
   - ./crunchy-users.yaml
   - ./crunchydata.yaml
   - ./dragonfly.yaml
+  - ./external-secrets.yaml
