@@ -7,3 +7,4 @@ resources:
   - ./nfs-pv.yaml
   - ./postgrescluster.yaml
   - ./podmonitor.yaml
+  - ./gatus.yaml
