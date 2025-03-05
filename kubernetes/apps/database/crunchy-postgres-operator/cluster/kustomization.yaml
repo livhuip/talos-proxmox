@@ -6,4 +6,4 @@ resources:
   - ./externalsecret.yaml
   - ./nfs-pv.yaml
   - ./postgrescluster.yaml
-  # - ./podmonitor.yaml
+  - ./podmonitor.yaml
