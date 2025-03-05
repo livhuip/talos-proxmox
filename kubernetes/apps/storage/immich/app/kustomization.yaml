@@ -8,4 +8,4 @@ resources:
   - ./machine-learning
   # - ./configmap.yaml
   - ./externalsecret.yaml
-  - ./microservices
+  # - ./microservices
