@@ -42,9 +42,9 @@ spec:
 
     controllers:
       immich-microservices:
-        pod:
-          nodeSelector:
-            intel.feature.node.kubernetes.io/gpu: "true"
+        # pod:
+        # nodeSelector:
+        #   intel.feature.node.kubernetes.io/gpu: "true"
 
         annotations:
           configmap.reloader.stakater.com/reload: &configMap immich-configmap
