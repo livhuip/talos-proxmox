@@ -7,5 +7,5 @@ resources:
   - ./server
   # - ./machine-learning
   - ./configmap.yaml
-  # - ./externalsecret.yaml
+  - ./externalsecret.yaml
   # - ./microservices
