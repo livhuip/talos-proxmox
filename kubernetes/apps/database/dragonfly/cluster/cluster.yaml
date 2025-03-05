@@ -1,20 +1,27 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/dragonflydb.io/dragonfly_v1alpha1.json
+# yaml-language-server: $schema=https://crd.movishell.pl/dragonflydb.io/dragonfly_v1alpha1.json
 apiVersion: dragonflydb.io/v1alpha1
 kind: Dragonfly
 metadata:
   name: dragonfly
 spec:
-  image: ghcr.io/dragonflydb/dragonfly:v1.27.1
   labels:
     dragonflydb.io/cluster: dragonfly
+  image: docker.dragonflydb.io/dragonflydb/dragonfly:v1.27.1@sha256:e1bdd6ff1ed32efdfb5a07ddf954689a3d69791ae905a1f2197d8aa381ef8e7c
   replicas: 3
+  args:
+    - --maxmemory=$(MAX_MEMORY)M
+    - --default_lua_flags=allow-undeclared-keys #https://github.com/immich-app/immich/issues/2542
+    - --proactor_threads=2
+    - --cluster_mode=emulated
+    - --lock_on_hashtags
+    - --s3_endpoint=s3.${SECRET_DOMAIN}
   env:
     - name: MAX_MEMORY
       valueFrom:
         resourceFieldRef:
           resource: limits.memory
-          divisor: 1Mi
+          divisor: 1M
     - name: AWS_ACCESS_KEY_ID
       valueFrom:
         secretKeyRef:
@@ -25,25 +32,23 @@ spec:
         secretKeyRef:
           key: AWS_SECRET_ACCESS_KEY
           name: dragonfly-secret
-  args:
-    - --maxmemory=$(MAX_MEMORY)Mi
-    - --proactor_threads=2
-    - --cluster_mode=emulated
-    - --default_lua_flags=allow-undeclared-keys
-    - --lock_on_hashtags
-    - --s3_endpoint=s3.${SECRET_DOMAIN} #haproxy-rados-gw.rook-ceph-external.svc.cluster.local:7480
-    - --s3_use_https=false
-  snapshot:
-    dir: "s3:${SECRET_S3_ENDPOINT}" #//dragonfly
-  topologySpreadConstraints:
-    - maxSkew: 1
-      topologyKey: topology.kubernetes.io/zone
-      whenUnsatisfiable: DoNotSchedule
-      labelSelector:
-        matchLabels:
-          app.kubernetes.io/part-of: dragonfly
   resources:
     requests:
       cpu: 100m
+      memory: 128M
     limits:
-      memory: 512Mi
+      memory: 512M
+  snapshot:
+    dir: "s3://dragonfly"
+  serviceSpec:
+    type: LoadBalancer
+    annotations:
+      lbipam.cilium.io/ips: 10.0.10.4
+      external-dns.alpha.kubernetes.io/hostname: redis.${SECRET_DOMAIN}
+  topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: "kubernetes.io/hostname"
+      whenUnsatisfiable: "DoNotSchedule"
+      labelSelector:
+        matchLabels:
+          app.kubernetes.io/part-of: dragonfly

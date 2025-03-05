@@ -5,6 +5,7 @@ kind: HelmRelease
 metadata:
   name: dragonfly-operator
 spec:
+  interval: 30m
   chart:
     spec:
       chart: dragonfly-operator
@@ -15,18 +16,18 @@ spec:
         namespace: flux-system
   install:
     crds: CreateReplace
-  interval: 30m
-  maxHistory: 3
   upgrade:
     crds: CreateReplace
   uninstall:
     keepHistory: false
+  maxHistory: 3
   values:
     serviceMonitor:
       enabled: false
     grafanaDashboard:
       enabled: true
-      folder: Storage
-      # -- Grafana dashboard configmap annotations.
+      folder: storage
       annotations:
         name: grafana_folder
+      labels:
+        name: grafana_dashboard
