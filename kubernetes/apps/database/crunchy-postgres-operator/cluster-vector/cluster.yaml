@@ -30,7 +30,7 @@ spec:
           app.kubernetes.io/name: crunchy-postgres-vector
       replicas: &replica 1
       dataVolumeClaimSpec:
-        storageClassName: ceph-rbd
+        storageClassName: openebs-hostpath
         accessModes: ["ReadWriteOnce"]
         resources:
           requests:
