@@ -9,7 +9,7 @@ spec:
   capacity:
     storage: 1Mi
   nfs:
-    path: "/mnt/tank/Backup/CPGO"
-    server: gladius.bjw-s.internal
+    path: "/mnt/datastore/kubebackup/postgres-cluster"
+    server: ${NAS_IP}
   persistentVolumeReclaimPolicy: Retain
   storageClassName: postgres-nfs
