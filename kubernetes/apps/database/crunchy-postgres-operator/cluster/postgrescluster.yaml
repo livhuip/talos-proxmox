@@ -110,7 +110,7 @@ spec:
         - name: repo2 # R2
           s3: &r2
             bucket: "db-backups"
-            endpoint: https://0a893a890f1f3d4d112a5accf6c040df.r2.cloudflarestorage.com
+            endpoint: ${CPGO_R2_ENDPOINT}
             region: "us-east-1"
           schedules:
             full: "0 2 * * 0" # Sunday at 02:00
