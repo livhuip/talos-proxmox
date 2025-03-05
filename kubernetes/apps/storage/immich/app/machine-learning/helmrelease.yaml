@@ -17,9 +17,9 @@ spec:
         namespace: flux-system
   dependsOn:
     - name: immich-server
-      namespace: media
-    - name: dragonfly-operator
       namespace: storage
+    - name: dragonfly-operator
+      namespace: databse
 
   maxHistory: 2
   install:
