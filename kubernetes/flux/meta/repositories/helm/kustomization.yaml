@@ -26,3 +26,4 @@ resources:
   - ./crunchydata.yaml
   - ./dragonfly.yaml
   - ./external-secrets.yaml
+  - ./openebs.yaml
