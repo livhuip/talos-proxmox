@@ -29,10 +29,10 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   # dependsOn:
-  #   # - name: crunchy-postgres-vector-cluster
-  #   #   namespace: storage
+  #   # - name: postgres-vector
+  #   #   namespace: database
   #   # - name: dragonfly-cluster
-  #   #   namespace: storage
+  #   #   namespace: database
   interval: 30m
   path: "./kubernetes/apps/storage/immich/app"
   prune: true
