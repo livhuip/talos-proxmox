@@ -18,7 +18,7 @@ spec:
 
   dependsOn:
     - name: dragonfly-operator
-      namespace: storage
+      namespace: database
 
   maxHistory: 2
   install:
