@@ -60,7 +60,7 @@ spec:
           search_path: '"$user", public, vectors"'
         pg_hba:
           - hostssl all all all md5
-          - hostnossl all all 10.69.0.0/16 md5
+          - hostnossl all all 10.0.10.0/24 md5
   users:
     # Superuser
     - name: postgres
