@@ -10,7 +10,7 @@ data:
     endpoints:
       - name: postgres-vector
         group: infrastructure
-        url: tcp://postgres-vector.database.svc.cluster.local:5432
+        url: tcp://postgres-vector-primary.database.svc.cluster.local:5432
         interval: 1m
         conditions: ["[CONNECTED] == true"]
         alerts: [{ type: discord }]
