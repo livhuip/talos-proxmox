@@ -60,8 +60,11 @@ spec:
           shared_preload_libraries: "vectors.so"
           search_path: '"$user", public, vectors"'
         pg_hba:
+          # - hostssl all all all md5
+          # - hostnossl all all 10.96.0.0/16 md5
+          - host all all 0.0.0.0/0 md5 # Allow any IP (temporary)
           - hostssl all all all md5
-          - hostnossl all all 10.96.0.0/16 md5
+          - hostnossl all all 10.69.4.0/24 md5
   users:
     # Superuser
     - name: postgres
