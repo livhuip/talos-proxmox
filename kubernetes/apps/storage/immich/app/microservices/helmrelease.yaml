@@ -1,78 +1,100 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: &app immich-microservices
+  namespace: media
 spec:
   interval: 30m
   chart:
     spec:
       chart: app-template
-      version: 3.7.1
+      version: 3.7.2
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-  maxHistory: 2
+  dependsOn:
+    - name: dragonfly-operator
+      namespace: storage
+
   install:
     remediation:
       retries: 3
   upgrade:
     cleanupOnFail: true
     remediation:
-      strategy: rollback
       retries: 3
-  dependsOn:
-    - name: immich-server
-      namespace: default
+  uninstall:
+    keepHistory: false
   values:
+    defaultPodOptions:
+      enableServiceLinks: false
+      securityContext:
+        runAsUser: 1003
+        runAsGroup: 100
+        fsGroup: 100
+        fsGroupChangePolicy: OnRootMismatch
+        supplementalGroups:
+          - 1000
+          - 568
+
     controllers:
       immich-microservices:
-        replicas: 3
+        pod:
+          nodeSelector:
+            intel.feature.node.kubernetes.io/gpu: "true"
+
         annotations:
-          reloader.stakater.com/auto: "true"
+          configmap.reloader.stakater.com/reload: &configMap immich-configmap
+          secret.reloader.stakater.com/reload: &secret immich-secret
+
         containers:
           app:
             image:
               repository: ghcr.io/immich-app/immich-server
-              tag: v1.126.1@sha256:f8a3c78ec0a0ace20517acedaab9c2f3edcfc9b96e03080ba401acf55792470e
-            env:
-              TZ: America/Detroit
-              IMMICH_WORKERS_EXCLUDE: api
+              tag: v1.128.0
             envFrom:
               - configMapRef:
-                  name: immich-configmap
+                  name: *configMap
               - secretRef:
-                  name: immich-secret
+                  name: *secret
             resources:
               requests:
+                gpu.intel.com/i915: 1
                 cpu: 100m
-                memory: 1Gi
+                memory: 256M
               limits:
-                memory: 16Gi
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
-        pod:
-          enableServiceLinks: false
-          securityContext:
-            runAsUser: 568
-            runAsGroup: 568
-            fsGroup: 568
-            fsGroupChangePolicy: OnRootMismatch
-          topologySpreadConstraints:
-            - maxSkew: 1
-              topologyKey: topology.kubernetes.io/zone
-              whenUnsatisfiable: DoNotSchedule
-              labelSelector:
-                matchLabels:
-                  app.kubernetes.io/name: *app
+                gpu.intel.com/i915: 1
+                memory: 6G
+    service:
+      main:
+        controller: *app
+        enabled: false
 
     persistence:
       library:
-        type: nfs
-        server: ${NAS_IP}
-        path: /emc1/photos
+        enabled: true
+        existingClaim: immich-nfs
         globalMounts:
           - path: /usr/src/app/upload
+            subPath: img/immich
+
+      geocoding-dump:
+        enabled: true
+        type: emptyDir
+        globalMounts:
+          - path: /usr/src/app/.reverse-geocoding-dump
+
+      geoname-dump:
+        enabled: true
+        type: emptyDir
+        globalMounts:
+          - path: /usr/src/app/node_modules/local-reverse-geocoder/geonames_dump
+
+      transformers-cache:
+        enabled: true
+        type: emptyDir
+        globalMounts:
+          - path: /usr/src/app/.transformers_cache

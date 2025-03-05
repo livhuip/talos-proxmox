@@ -1,102 +1,111 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: immich-machine-learning
+  name: &app immich-machine-learning
 spec:
   interval: 30m
   chart:
     spec:
       chart: app-template
-      version: 3.7.1
+      version: 3.7.2
+      interval: 30m
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
+  dependsOn:
+    - name: immich-server
+      namespace: media
+    - name: dragonfly-operator
+      namespace: storage
+
   maxHistory: 2
   install:
+    createNamespace: true
     remediation:
       retries: 3
   upgrade:
     cleanupOnFail: true
     remediation:
-      strategy: rollback
       retries: 3
-  dependsOn:
-    - name: immich-server
-      namespace: default
+  uninstall:
+    keepHistory: false
+
   values:
+    defaultPodOptions:
+      enableServiceLinks: false
+      securityContext:
+        runAsUser: 1003
+        runAsGroup: 100
+        fsGroup: 100
+        fsGroupChangePolicy: OnRootMismatch
+        supplementalGroups:
+          - 1000
+          - 568
+
     controllers:
       immich-machine-learning:
         annotations:
-          reloader.stakater.com/auto: "true"
-        strategy: RollingUpdate
+          configmap.reloader.stakater.com/reload: &configMap immich-configmap
+          secret.reloader.stakater.com/reload: &secret immich-secret
+
         containers:
           app:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
-              tag: v1.126.1@sha256:0989db1266d91e553375289571b989d49e10690d466802fcf23326f16b747d4c
-            env:
-              TZ: America/Detroit
+              tag: v1.128.0
+
             envFrom:
               - configMapRef:
-                  name: immich-configmap
+                  name: *configMap
               - secretRef:
-                  name: immich-secret
-            probes:
-              liveness: &probes
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /ping
-                    port: 3003
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 5
-              readiness: *probes
-              startup:
-                enabled: false
+                  name: *secret
+
+            env:
+              # General
+              IMMICH_MEDIA_LOCATION: &mediaLocation /usr/src/app/upload
+              # Ports
+              MACHINE_LEARNING_HOST: 0.0.0.0
+              MACHINE_LEARNING_PORT: &port 3003
+
             resources:
               requests:
-                cpu: 10m
-                memory: 250Mi
+                cpu: 100m
+                memory: 256M
               limits:
-                memory: 4000Mi
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
-        pod:
-          enableServiceLinks: false
-          securityContext:
-            runAsUser: 568
-            runAsGroup: 568
-            fsGroup: 568
-            fsGroupChangePolicy: OnRootMismatch
+                memory: 3G
+
     service:
       app:
-        controller: immich-machine-learning
+        controller: *app
         ports:
           http:
-            port: 3003
+            port: *port
+
     persistence:
       library:
-        type: nfs
-        server: ${NAS_IP}
-        path: /emc1/photos
+        enabled: true
+        existingClaim: immich-nfs
         globalMounts:
           - path: /usr/src/app/upload
+            subPath: img/immich
+
       cache:
-        type: emptyDir
+        type: persistentVolumeClaim
+        existingClaim: immich-machine-learning-cache
         globalMounts:
           - path: /cache
+
       geocoding-dump:
+        enabled: true
         type: emptyDir
         globalMounts:
           - path: /usr/src/app/.reverse-geocoding-dump
-      tmp:
+
+      transformers-cache:
+        enabled: true
         type: emptyDir
         globalMounts:
-          - path: /tmp
+          - path: /usr/src/app/.transformers_cache
