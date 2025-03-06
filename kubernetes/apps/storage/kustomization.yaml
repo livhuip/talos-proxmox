@@ -12,7 +12,7 @@ resources:
   - ./immich/ks.yaml
 components:
   - ../../components/common
-  - ../../components/gatus/guarded
+  # - ../../components/gatus/guarded
   # - ../../../shared/meta/components/alerts
   # - ../../../shared/meta/components/global-vars
   # - ../../../shared/meta/components/namespace
