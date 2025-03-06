@@ -35,6 +35,9 @@ spec:
   #   #   namespace: database
   interval: 30m
   path: "./kubernetes/apps/storage/immich/app"
+  components:
+    # - ../../../components/volsync
+    - ../../../components/gatus/guarded
   prune: true
   sourceRef:
     kind: GitRepository
@@ -43,3 +46,6 @@ spec:
   targetNamespace: *namespace
   timeout: 5m
   wait: true
+  postBuild:
+    substitute:
+      APP: *app
