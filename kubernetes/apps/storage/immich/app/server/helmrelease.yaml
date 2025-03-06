@@ -16,9 +16,9 @@ spec:
         name: bjw-s
         namespace: flux-system
 
-  dependsOn:
-    - name: dragonfly-operator
-      namespace: database
+  # dependsOn:
+  #   - name: dragonfly-operator
+  #     namespace: database
 
   maxHistory: 2
   install:
