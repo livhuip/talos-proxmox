@@ -29,3 +29,4 @@ resources:
   - ./openebs.yaml
   - ./grafana.yaml
   - ./prometheus-community.yaml
+  - ./descheduler.yaml
