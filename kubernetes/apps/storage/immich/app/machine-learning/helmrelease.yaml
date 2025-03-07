@@ -18,8 +18,8 @@ spec:
   dependsOn:
     - name: immich-server
       namespace: storage
-    - name: dragonfly-operator
-      namespace: databse
+    # - name: dragonfly-operator
+    #   namespace: databse
 
   maxHistory: 2
   install:
