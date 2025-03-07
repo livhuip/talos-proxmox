@@ -70,7 +70,7 @@ spec:
       app:
         className: internal
         hosts:
-          - host: alertmanager.hayanixyz
+          - host: alertmanager.hayani.xyz
             paths:
               - path: /
                 service:
