@@ -43,11 +43,11 @@ spec:
 
     ingress:
       enabled: true
-      className: internal-nginx
+      className: internal
       annotations:
-        external-dns.alpha.kubernetes.io/target: ingress-int.bjw-s.dev
+        external-dns.alpha.kubernetes.io/target: ingress.hayani.xyz
       hosts:
-        - host: blackbox-exporter.bjw-s.dev
+        - host: blackbox-exporter.hayanixyz
           paths:
             - path: /
               pathType: Prefix

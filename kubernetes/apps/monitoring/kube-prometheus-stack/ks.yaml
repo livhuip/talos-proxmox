@@ -13,6 +13,12 @@ spec:
   interval: 30m
   timeout: 5m
   path: "./kubernetes/apps/monitoring/kube-prometheus-stack/app"
+  components:
+    - ../../../../components/gatus/guarded
+  postBuild:
+    substitute:
+      APP: kube-prometheus-stack
+      GATUS_SUBDOMAIN: prometheus
   prune: true
   sourceRef:
     kind: GitRepository

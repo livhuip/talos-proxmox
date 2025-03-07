@@ -36,9 +36,9 @@ spec:
               tag: v2.14.1
             env:
               UP_UNIFI_DEFAULT_ROLE: home-ops
-              UP_UNIFI_DEFAULT_URL: https://10.1.3.1
+              UP_UNIFI_DEFAULT_URL: https://192.168.86.1
               UP_UNIFI_DEFAULT_VERIFY_SSL: false
-              UP_UNIFI_DEFAULT_USER: unpoller
+              UP_UNIFI_DEFAULT_USER: Unpoller
               UP_UNIFI_DEFAULT_PASS:
                 valueFrom:
                   secretKeyRef:

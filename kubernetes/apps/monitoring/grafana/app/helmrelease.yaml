@@ -320,7 +320,7 @@ spec:
       enabled: true
       ingressClassName: internal
       annotations:
-        external-dns.alpha.kubernetes.io/target: ingress-int.hayani.xyz
+        external-dns.alpha.kubernetes.io/target: ingress.hayani.xyz
       hosts:
         - grafana.hayani.xyz
 
