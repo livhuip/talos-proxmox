@@ -5,7 +5,7 @@ kind: Kustomization
 namespace: monitoring
 resources:
   # []
-  # - ./gatus/ks.yaml
+  - ./gatus/ks.yaml
   - ./alertmanager/ks.yaml
   - ./blackbox-exporter/ks.yaml
   - ./grafana/ks.yaml
@@ -17,7 +17,7 @@ resources:
   - ./prometheus-operator/ks.yaml
   - ./promtail/ks.yaml
   - ./silence-operator/ks.yaml
-  # - ./smartctl-exporter/ks.yaml
+  - ./smartctl-exporter/ks.yaml
   - ./unpoller/ks.yaml
 # components:
 #   - ../../components/namespace
