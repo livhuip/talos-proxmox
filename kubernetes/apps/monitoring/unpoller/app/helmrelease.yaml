@@ -36,7 +36,7 @@ spec:
               tag: v2.14.1
             env:
               UP_UNIFI_DEFAULT_ROLE: home-ops
-              UP_UNIFI_DEFAULT_URL: http://192.168.86.1
+              UP_UNIFI_DEFAULT_URL: https://192.168.86.1
               UP_UNIFI_DEFAULT_VERIFY_SSL: false
               UP_UNIFI_DEFAULT_USER: lenox
               UP_UNIFI_DEFAULT_PASS:
