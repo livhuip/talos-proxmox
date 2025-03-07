@@ -13,11 +13,11 @@ spec:
   interval: 30m
   timeout: 5m
   path: "./kubernetes/apps/monitoring/kromgo/app"
-  # components:
-  #   - ../../../../components/gatus/external
+  components:
+    - ../../../../components/gatus/external
   postBuild:
     substitute:
-      APP: *app
+      APP: *appname
       GATUS_PATH: /talos_version
   prune: true
   sourceRef:
