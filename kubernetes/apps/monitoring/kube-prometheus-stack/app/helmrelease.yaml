@@ -111,7 +111,7 @@ spec:
     prometheus:
       ingress:
         enabled: true
-        ingressClassName: internal-nginx
+        ingressClassName: internal
         hosts:
           - prometheus.hayani.xyz
         pathType: Prefix
