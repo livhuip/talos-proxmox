@@ -9,7 +9,7 @@ receivers:
         send_resolved: true
         priority: |-
           {{ if eq .Status "firing" }}1{{ else }}0{{ end }}
-        url: "https://alertmanager.example.com/#/alerts?silenced=false&inhibited=false&filter=%7B%22alertname%22%3A%20%22{{ .CommonLabels.alertname }}%22%7D"
+        url: "https://alertmanager.hayani.xyz/#/alerts?silenced=false&inhibited=false&filter=%7B%22alertname%22%3A%20%22{{ .CommonLabels.alertname }}%22%7D"
         url_title: View in Alert Manager
         title: |-
           [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .CommonLabels.alertname }}
