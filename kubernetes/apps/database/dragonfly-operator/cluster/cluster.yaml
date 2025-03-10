@@ -15,7 +15,7 @@ spec:
     - --proactor_threads=2
     - --cluster_mode=emulated
     - --lock_on_hashtags
-    - --s3_endpoint=s3.${SECRET_S3_ENDPOINT}
+    - --s3_endpoint=${SECRET_S3_ENDPOINT}
   env:
     - name: MAX_MEMORY
       valueFrom:
