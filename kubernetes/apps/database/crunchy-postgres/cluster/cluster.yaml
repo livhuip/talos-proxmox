@@ -58,62 +58,62 @@ spec:
       password: &password
         type: AlphaNumeric
     # Applications
-    - name: "atuin"
-      databases: ["atuin"]
-      password: *password
-    - name: "authentik"
-      databases: ["authentik"]
-      password: *password
-    - name: "gatus"
-      databases: ["gatus"]
-      password: *password
-    - name: "grafana"
-      databases: ["grafana"]
-      password: *password
-    - name: "gramps"
-      databases:
-        - gramps
-        - gramps_users
-        - gramps_search
-      password: *password
-    - name: "homebox"
-      databases: ["homebox"]
-      password: *password
-    - name: "invidious"
-      databases: ["invidious"]
-      password: *password
-    - name: lidarr
-      databases:
-        - lidarr_main
-        - lidarr_log
-      password: *password
-    - name: "lldap"
-      databases: ["lldap"]
-      password: *password
-    - name: "lubelog"
-      databases: ["lubelog"]
-      password: *password
-    - name: "miniflux"
-      databases: ["miniflux"]
-      password: *password
-    - name: "n8n"
-      databases: ["n8n"]
-      password: *password
+    # - name: "atuin"
+    #   databases: ["atuin"]
+    #   password: *password
+    # - name: "authentik"
+    #   databases: ["authentik"]
+    #   password: *password
+    # - name: "gatus"
+    #   databases: ["gatus"]
+    #   password: *password
+    # - name: "grafana"
+    #   databases: ["grafana"]
+    #   password: *password
+    # - name: "gramps"
+    #   databases:
+    #     - gramps
+    #     - gramps_users
+    #     - gramps_search
+    #   password: *password
+    # - name: "homebox"
+    #   databases: ["homebox"]
+    #   password: *password
+    # - name: "invidious"
+    #   databases: ["invidious"]
+    #   password: *password
+    # - name: lidarr
+    #   databases:
+    #     - lidarr_main
+    #     - lidarr_log
+    #   password: *password
+    # - name: "lldap"
+    #   databases: ["lldap"]
+    #   password: *password
+    # - name: "lubelog"
+    #   databases: ["lubelog"]
+    #   password: *password
+    # - name: "miniflux"
+    #   databases: ["miniflux"]
+    #   password: *password
+    # - name: "n8n"
+    #   databases: ["n8n"]
+    #   password: *password
     - name: "nextcloud"
       databases: ["nextcloud"]
       password: *password
-    - name: "nocodb"
-      databases: ["nocodb"]
-      password: *password
-    - name: "paperless"
-      databases: ["paperless"]
-      password: *password
-    - name: "shlink"
-      databases: ["shlink"]
-      password: *password
-    - name: "vikunja"
-      databases: ["vikunja"]
-      password: *password
+    # - name: "nocodb"
+    #   databases: ["nocodb"]
+    #   password: *password
+    # - name: "paperless"
+    #   databases: ["paperless"]
+    #   password: *password
+    # - name: "shlink"
+    #   databases: ["shlink"]
+    #   password: *password
+    # - name: "vikunja"
+    #   databases: ["vikunja"]
+    #   password: *password
 
   backups:
     pgbackrest:
@@ -151,7 +151,7 @@ spec:
         - name: repo1
           volume: &nfs
             volumeClaimSpec:
-              storageClassName: nfs-csi #csi-driver-nfs
+              storageClassName: nfs-slow #csi-driver-nfs
               volumeName: crunchy-postgres-nfs
               accessModes: ["ReadWriteMany"]
               resources:
@@ -163,16 +163,16 @@ spec:
             incremental: "30 3-23 * * *" # Every hour except 01:30-2:30
         - name: repo2
           s3: &r2
-            bucket: crunchy-pgo
-            endpoint: ${SECRET_CLOUDFLARE_R2_ENDPOINT}
+            bucket: db-backups
+            endpoint: ${CPGO_R2_ENDPOINT}
             region: us-east-1 #https://developers.cloudflare.com/r2/api/s3/api/#bucket-region
           schedules:
             full: "30 2 * * 0" # Sunday at 02:30
             incremental: "30 2 * * 1-6/2" # Mon-Sat at 02:30, every 2nd day
         - name: repo3
           s3: &minio
-            bucket: crunchy-pgo
-            endpoint: s3.${SECRET_DOMAIN}
+            bucket: postgresql-cunchy
+            endpoint: s3.${SECRET_S3_ENDPOINT}
             region: us-east-1
           schedules:
             full: "15 1 * * 0" # Sunday at 01:15
@@ -195,7 +195,7 @@ spec:
         metadata:
           annotations:
             external-dns.alpha.kubernetes.io/hostname: cpgo.${SECRET_DOMAIN}
-            lbipam.cilium.io/ips: ${CILIUM_SVC_CPGO_ADDR}
+            lbipam.cilium.io/ips: 10.0.10.6
         type: LoadBalancer
       port: 5432
       replicas: *replicas

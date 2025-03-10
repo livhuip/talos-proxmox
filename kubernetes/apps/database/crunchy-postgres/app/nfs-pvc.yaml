@@ -7,10 +7,10 @@ spec:
   capacity:
     storage: 1Mi
   accessModes: ["ReadWriteMany"]
-  storageClassName: nfs-csi #csi-driver-nfs
+  storageClassName: nfs-slow #csi-driver-nfs
   nfs:
-    server: ${SECRET_NFS_SERVER}
-    path: ${SECRET_NFS_MOUNT_POSTGRES}
+    server: ${NAS_IP}
+    path: "/mnt/datastore/kubebackup/postgres-cluster"
   mountOptions:
     - nfsvers=4.2
     - hard
@@ -29,10 +29,11 @@ spec:
   capacity:
     storage: 1Mi
   accessModes: ["ReadWriteMany"]
-  storageClassName: nfs-csi #csi-driver-nfs
+  storageClassName: nfs-slow #csi-driver-nfs
   nfs:
-    server: ${SECRET_NFS_SERVER}
-    path: ${SECRET_NFS_MOUNT_POSTGRES_VECTOR}
+    server: ${NAS_IP}
+    path: "/mnt/datastore/kubebackup/postgres-cluster"
+
   mountOptions:
     - nfsvers=4.2
     - hard
