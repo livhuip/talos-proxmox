@@ -36,13 +36,13 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  dependsOn:
-    - name: dragonfly-operator
-      namespace: *namespace
-    - name: haproxy
-      namespace: rook-ceph-external
-    - name: onepassword
-      namespace: external-secrets
+  # dependsOn:
+  #   - name: dragonfly-operator
+  #     namespace: *namespace
+  #   - name: haproxy
+  #     namespace: rook-ceph-external
+  #   - name: onepassword
+  #     namespace: external-secrets
   prune: true
   wait: false
   interval: 30m
