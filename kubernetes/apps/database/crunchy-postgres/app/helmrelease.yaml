@@ -32,10 +32,10 @@ spec:
       clusterLabels:
         app.kubernetes.io/name: pgo
     replicas: 2
-    topologySpreadConstraints:
-      - maxSkew: 1
-        topologyKey: "topology.kubernetes.io/zone"
-        whenUnsatisfiable: "ScheduleAnyway" #"DoNotSchedule"
-        labelSelector:
-          matchLabels:
-            postgres-operator.crunchydata.com/control-plane: pgo
+    # topologySpreadConstraints:
+    #   - maxSkew: 1
+    #     topologyKey: "topology.kubernetes.io/zone"
+    #     whenUnsatisfiable: "ScheduleAnyway" #"DoNotSchedule"
+    #     labelSelector:
+    #       matchLabels:
+    #         postgres-operator.crunchydata.com/control-plane: pgo
