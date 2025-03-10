@@ -30,3 +30,4 @@ resources:
   - ./grafana.yaml
   - ./prometheus-community.yaml
   - ./descheduler.yaml
+  - ./nextcloud.yaml
