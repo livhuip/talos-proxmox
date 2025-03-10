@@ -207,11 +207,11 @@ spec:
           client_tls_sslmode: prefer
           default_pool_size: "100"
           max_client_conn: "500"
-      topologySpreadConstraints:
-        - maxSkew: 1
-          topologyKey: kubernetes.io/hostname
-          whenUnsatisfiable: ScheduleAnyway #DoNotSchedule
-          labelSelector:
-            matchLabels:
-              postgres-operator.crunchydata.com/cluster: *name
-              postgres-operator.crunchydata.com/role: pgbouncer
+      # topologySpreadConstraints:
+      #   - maxSkew: 1
+      #     topologyKey: kubernetes.io/hostname
+      #     whenUnsatisfiable: ScheduleAnyway #DoNotSchedule
+      #     labelSelector:
+      #       matchLabels:
+      #         postgres-operator.crunchydata.com/cluster: *name
+      #         postgres-operator.crunchydata.com/role: pgbouncer
