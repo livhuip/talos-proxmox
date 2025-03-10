@@ -33,11 +33,11 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  dependsOn:
-    - name: crunchy-postgres-operator
-      namespace: *namespace
-    - name: onepassword
-      namespace: external-secrets
+  # dependsOn:
+  #   - name: crunchy-postgres-operator
+  #     namespace: *namespace
+  #   - name: onepassword
+  #     namespace: external-secrets
   healthCheckExprs:
     - apiVersion: postgres-operator.crunchydata.com/v1beta1
       kind: PostgresCluster
