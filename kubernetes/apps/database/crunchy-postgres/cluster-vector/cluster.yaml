@@ -110,7 +110,7 @@ spec:
         - name: repo1
           volume: &nfs
             volumeClaimSpec:
-              storageClassName: nfs-csi #csi-driver-nfs
+              storageClassName: nfs-slow #csi-driver-nfs
               volumeName: crunchy-postgres-vector-nfs
               accessModes: ["ReadWriteMany"]
               resources:
