@@ -10,6 +10,7 @@ resources:
   # Flux-Kustomizations
   - ./crunchy-postgres/ks.yaml
   - ./dragonfly-operator/ks.yaml
+  - ./pgadmin/ks.yaml
   # - ./emqx/ks.yaml
   # - ./influx/ks.yaml
 components:
