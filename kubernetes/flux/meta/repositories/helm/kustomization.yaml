@@ -31,3 +31,4 @@ resources:
   - ./prometheus-community.yaml
   - ./descheduler.yaml
   - ./nextcloud.yaml
+  - ./runix.yaml
