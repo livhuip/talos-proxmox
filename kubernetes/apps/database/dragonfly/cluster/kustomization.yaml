@@ -5,3 +5,14 @@ kind: Kustomization
 resources:
   - ./cluster.yaml
   - ./podmonitor.yaml
+  - ./externalsecret.yaml
+configMapGenerator:
+  - name: dragonfly-dashboard
+    files:
+      - dragonfly.json=./resources/grafana_dashboard.json
+generatorOptions:
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled
+  labels:
+    grafana_dashboard: "true"
+  disableNameSuffixHash: true

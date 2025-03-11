@@ -7,7 +7,7 @@ spec:
   jobLabel: cpgo-postgres
   namespaceSelector:
     matchNames:
-      - infrastructure
+      - database
   podMetricsEndpoints:
     - honorLabels: true
       path: /metrics
@@ -33,5 +33,5 @@ spec:
           targetLabel: instance
   selector:
     matchLabels:
-      postgres-operator.crunchydata.com/cluster: postgres-16
+      postgres-operator.crunchydata.com/cluster: postgres
       postgres-operator.crunchydata.com/crunchy-postgres-exporter: "true"

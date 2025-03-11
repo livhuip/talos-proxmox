@@ -1,156 +1,113 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &appname crunchy-postgres-operator
-  namespace: &namespace database
+  name: &app crunchy-postgres-operator
+  namespace: flux-system
 spec:
-  targetNamespace: *namespace
+  targetNamespace: database
   commonMetadata:
     labels:
-      app.kubernetes.io/name: *appname
-  interval: 30m
-  timeout: 5m
+      app.kubernetes.io/name: *app
   path: ./kubernetes/apps/database/crunchy-postgres-operator/operator
   prune: true
   sourceRef:
     kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  wait: true
-  dependsOn:
-    - name: onepassword-store
-      namespace: external-secrets
+    name: home-kubernetes
+  wait: false
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &appname crunchy-postgres-operator-cluster
-  namespace: &namespace database
+  namespace: flux-system
 spec:
-  targetNamespace: *namespace
+  targetNamespace: database
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  interval: 30m
-  timeout: 5m
   path: ./kubernetes/apps/database/crunchy-postgres-operator/cluster
   prune: true
   sourceRef:
     kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  wait: true
-  postBuild:
-    substituteFrom:
-      - kind: Secret
-        name: crunchy-postgres-r2
-        optional: false
+    name: home-kubernetes
+  wait: false
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
   dependsOn:
     - name: crunchy-postgres-operator
-      namespace: database
-    - name: onepassword-store
-      namespace: external-secrets
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+#yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &appname crunchy-postgres-operator-secretstore
-  namespace: &namespace database
+  name: &appname crunchy-cluster-vector
+  namespace: flux-system
 spec:
-  targetNamespace: *namespace
+  targetNamespace: database
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  interval: 30m
-  timeout: 5m
-  path: ./kubernetes/apps/database/crunchy-postgres-operator/clustersecretstore
+  path: ./kubernetes/apps/database/crunchy-postgres-operator/vector-cluster
   prune: true
   sourceRef:
     kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  wait: true
+    name: home-kubernetes
+  wait: false
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
   dependsOn:
-    - name: crunchy-postgres-operator-cluster
-      namespace: database
-    - name: external-secrets
-      namespace: external-secrets
+    - name: crunchy-postgres-operator
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &appname crunchy-postgres-userinit-controller
-  namespace: &namespace database
+  namespace: flux-system
 spec:
-  targetNamespace: *namespace
+  targetNamespace: database
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  interval: 30m
-  timeout: 5m
   path: ./kubernetes/apps/database/crunchy-postgres-operator/userinit-controller
   prune: true
   sourceRef:
     kind: GitRepository
-    name: flux-system
-    namespace: flux-system
+    name: home-kubernetes
   wait: false
-
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+  dependsOn:
+    - name: crunchy-postgres-operator
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &appname postgres-vector
-  namespace: &namespace database
+  name: &appname crunchy-postgres-secret-store
+  namespace: flux-system
 spec:
-  targetNamespace: *namespace
+  targetNamespace: database
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  interval: 30m
-  timeout: 5m
-  path: ./kubernetes/apps/database/crunchy-postgres-operator/cluster-vector
+  path: ./kubernetes/apps/database/crunchy-postgres-operator/cluster-secret-store
   prune: true
   sourceRef:
     kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  wait: true
-  dependsOn:
-    - name: onepassword-store
-      namespace: external-secrets
-    - name: external-secrets
-      namespace: external-secrets
-
----
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: &appname pgadmin
-  namespace: &namespace database
-spec:
-  targetNamespace: *namespace
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *appname
+    name: home-kubernetes
+  wait: false
   interval: 30m
+  retryInterval: 1m
   timeout: 5m
-  path: ./kubernetes/apps/database/crunchy-postgres-operator/pgadmin
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  wait: true
   dependsOn:
-    - name: onepassword-store
-      namespace: external-secrets
-    - name: external-secrets
-      namespace: external-secrets
+    - name: crunchy-postgres-operator
