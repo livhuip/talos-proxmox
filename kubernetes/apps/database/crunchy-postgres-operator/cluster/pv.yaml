@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: postgres-16-postgres-gdbl-pgdata-pv
+spec:
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: openebs-hostpath
+  local:
+    path: "/var/mnt/extra/openebs/local/postgres-data"
+  # nodeAffinity:
+  #   required:
+  #     nodeSelectorTerms:
+  #       - matchExpressions:
+  #           - key: kubernetes.io/hostname
+  #             operator: In
+  #             values:
+  #               - <NODE_NAME>
