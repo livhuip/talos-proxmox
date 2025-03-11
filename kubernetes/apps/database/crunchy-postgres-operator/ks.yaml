@@ -1,85 +1,98 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app crunchy-postgres-operator
-  namespace: flux-system
+  name: &appname crunchy-postgres-operator
+  namespace: &namespace database
 spec:
-  targetNamespace: database
+  targetNamespace: *namespace
   commonMetadata:
     labels:
-      app.kubernetes.io/name: *app
+      app.kubernetes.io/name: *appname
+  interval: 30m
+  timeout: 5m
   path: ./kubernetes/apps/database/crunchy-postgres-operator/operator
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  wait: false
-  interval: 30m
-  retryInterval: 1m
-  timeout: 5m
+  wait: true
+  dependsOn:
+    - name: onepassword
+      namespace: external-secrets
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &appname crunchy-postgres-operator-cluster
-  namespace: flux-system
+  namespace: &namespace database
 spec:
-  targetNamespace: database
+  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
+  interval: 30m
+  timeout: 5m
   path: ./kubernetes/apps/database/crunchy-postgres-operator/cluster
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  wait: false
-  interval: 30m
-  retryInterval: 1m
-  timeout: 5m
+  wait: true
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: crunchy-postgres-r2
+        optional: false
   dependsOn:
     - name: crunchy-postgres-operator
+      namespace: database
+    - name: onepassword
+      namespace: external-secrets
 ---
-#yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &appname crunchy-cluster-vector
-  namespace: flux-system
+  name: &appname crunchy-postgres-operator-secretstore
+  namespace: &namespace database
 spec:
-  targetNamespace: database
+  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  path: ./kubernetes/apps/database/crunchy-postgres-operator/vector-cluster
+  interval: 30m
+  timeout: 5m
+  path: ./kubernetes/apps/database/crunchy-postgres-operator/clustersecretstore
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  wait: false
-  interval: 30m
-  retryInterval: 1m
-  timeout: 5m
+  wait: true
   dependsOn:
-    - name: crunchy-postgres-operator
+    - name: crunchy-postgres-operator-cluster
+      namespace: database
+    - name: external-secrets
+      namespace: external-secrets
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &appname crunchy-postgres-userinit-controller
-  namespace: flux-system
+  namespace: &namespace database
 spec:
-  targetNamespace: database
+  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
+  interval: 30m
+  timeout: 5m
   path: ./kubernetes/apps/database/crunchy-postgres-operator/userinit-controller
   prune: true
   sourceRef:
@@ -87,32 +100,57 @@ spec:
     name: flux-system
     namespace: flux-system
   wait: false
-  interval: 30m
-  retryInterval: 1m
-  timeout: 5m
-  dependsOn:
-    - name: crunchy-postgres-operator
+
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &appname crunchy-postgres-secret-store
-  namespace: flux-system
+  name: &appname postgres-vector
+  namespace: &namespace database
 spec:
-  targetNamespace: database
+  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  path: ./kubernetes/apps/database/crunchy-postgres-operator/cluster-secret-store
+  interval: 30m
+  timeout: 5m
+  path: ./kubernetes/apps/database/crunchy-postgres-operator/cluster-vector
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  wait: false
-  interval: 30m
-  retryInterval: 1m
-  timeout: 5m
+  wait: true
   dependsOn:
-    - name: crunchy-postgres-operator
+    - name: onepassword
+      namespace: external-secrets
+    - name: external-secrets
+      namespace: external-secrets
+
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &appname pgadmin
+  namespace: &namespace database
+spec:
+  targetNamespace: *namespace
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *appname
+  interval: 30m
+  timeout: 5m
+  path: ./kubernetes/apps/database/crunchy-postgres-operator/pgadmin
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  wait: true
+  dependsOn:
+    - name: onepassword
+      namespace: external-secrets
+    - name: external-secrets
+      namespace: external-secrets

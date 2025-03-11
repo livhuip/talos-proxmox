@@ -3,31 +3,9 @@
 apiVersion: postgres-operator.crunchydata.com/v1beta1
 kind: PostgresCluster
 metadata:
-  name: postgres-16 # Replace *name with actual cluster name
+  name: &name postgres
 spec:
   postgresVersion: 16
-
-  dataSource:
-    pgbackrest:
-      stanza: db
-      configuration:
-        - secret:
-            name: crunchy-postgres-secret
-      global:
-        compress-type: "bz2"
-        compress-level: "9"
-        repo1-block: "y"
-        repo1-bundle: "y"
-        repo1-path: /crunchy-pgo
-        repo1-retention-full: "30" # days
-        repo1-retention-full-type: "time"
-        repo1-s3-uri-style: path
-      repo:
-        name: repo1
-        s3:
-          bucket: "postgres-backup"
-          endpoint: "s3.${SECRET_DOMAIN}"
-          region: "us-east-1"
 
   metadata:
     labels:
@@ -38,19 +16,17 @@ spec:
     type: LoadBalancer
     metadata:
       annotations:
-        external-dns.alpha.kubernetes.io/hostname: "main.postgres.${LIMITED_DOMAIN}"
-        io.cilium/lb-ipam-ips: ""
+        external-dns.alpha.kubernetes.io/hostname: postgres.hayani.xyz
+        lbipam.cilium.io/ips: 10.0.10.3
 
-  patroni:
+  patroni: # turn on sync writes to at least 1 other replica
     dynamicConfiguration:
       synchronous_mode: true
       postgresql:
-        parameters:
-          max_connections: 300
         max_wal_size: 5GB
         synchronous_commit: "on"
         pg_hba:
-          - hostnossl all all 10.69.0.0/16 md5
+          - hostnossl all all 10.96.0.0/16 md5 # Needed because dbman does not support SSL yet
           - hostssl all all all md5
 
   instances:
@@ -58,7 +34,7 @@ spec:
       metadata:
         labels:
           app.kubernetes.io/name: crunchy-postgres
-      replicas: 3
+      replicas: &replica 2
       dataVolumeClaimSpec:
         storageClassName: openebs-hostpath
         accessModes:
@@ -66,37 +42,49 @@ spec:
         resources:
           requests:
             storage: 20Gi
-      topologySpreadConstraints:
-        - maxSkew: 1
-          topologyKey: "kubernetes.io/hostname"
-          whenUnsatisfiable: "DoNotSchedule"
-          labelSelector:
-            matchLabels:
-              postgres-operator.crunchydata.com/cluster: "postgres-16" # Replace *name with actual cluster name
-              postgres-operator.crunchydata.com/data: postgres
+      # topologySpreadConstraints:
+      #   - maxSkew: 1
+      #     topologyKey: "kubernetes.io/hostname"
+      #     whenUnsatisfiable: "DoNotSchedule"
+      #     labelSelector:
+      #       matchLabels:
+      #         postgres-operator.crunchydata.com/cluster: *name
+      #         postgres-operator.crunchydata.com/data: postgres
 
   users:
-    - name: "postgres"
+    # Superuser
+    - name: postgres
       databases:
-        - "postgres"
+        - postgres
       options: "SUPERUSER"
+      password:
+        type: AlphaNumeric
+    # Applications
+    - name: miniflux
+      databases:
+        - miniflux
       password:
         type: AlphaNumeric
 
   backups:
     pgbackrest:
-      configuration:
+      configuration: &backupConfig
         - secret:
             name: crunchy-postgres-secret
-      global:
+      global: &backupFlag
         compress-type: "bz2"
         compress-level: "9"
-        repo1-block: "y"
+        # NFS
         repo1-bundle: "y"
-        repo1-path: /crunchy-pgo
         repo1-retention-full: "30" # days
         repo1-retention-full-type: "time"
-        repo1-s3-uri-style: path
+        # R2
+        repo2-block: "y"
+        repo2-bundle: "y"
+        repo2-path: /crunchy-pgo
+        repo2-retention-full: "7" # days
+        repo2-retention-full-type: time
+        repo2-s3-uri-style: path
       manual:
         repoName: repo1
         options:
@@ -105,15 +93,37 @@ spec:
         labels:
           app.kubernetes.io/name: crunchy-postgres-backup
       repos:
-        - name: repo1 # Minio
-          s3:
-            bucket: "postgres-16-backup"
-            endpoint: "s3.${SECRET_DOMAIN}"
-            region: "us-east-1"
+        - name: repo1 # NFS
+          volume: &nfs
+            volumeClaimSpec:
+              storageClassName: postgres-nfs
+              volumeName: postgres-nfs
+              accessModes:
+                - ReadWriteMany
+              resources:
+                requests:
+                  storage: "1Mi"
           schedules:
             full: "0 1 * * 0" # Sunday at 01:00
             differential: "0 1 * * 1-6" # Mon-Sat at 01:00
             incremental: "0 2-23 * * *" # Every hour except 01:00
+        - name: repo2 # R2
+          s3: &r2
+            bucket: "db-backups"
+            endpoint: ${CPGO_R2_ENDPOINT}
+            region: "us-east-1"
+          schedules:
+            full: "0 2 * * 0" # Sunday at 02:00
+            incremental: "0 2 * * 1-6/2" # Mon-Sat at 02:00, every 2nd day
+
+  # dataSource:
+  #   pgbackrest:
+  #     stanza: "db"
+  #     configuration: *backupConfig
+  #     global: *backupFlag
+  #     repo:
+  #       name: "repo1"
+  #       volume: *nfs
 
   monitoring:
     pgmonitor:
@@ -128,13 +138,13 @@ spec:
   proxy:
     pgBouncer:
       port: 5432
-      replicas: 3 # Using same replica count
+      replicas: *replica
       metadata:
         labels:
           app.kubernetes.io/name: crunchy-postgres-pgbouncer
       config:
         global:
-          pool_mode: "transaction" # pgBouncer is set to transaction for Authentik
+          pool_mode: "transaction" # pgBouncer is set to transaction for Authentik. Grafana requires session https://github.com/grafana/grafana/issues/74260#issuecomment-1702795311. Everything else is happy with transaction
           client_tls_sslmode: prefer
       topologySpreadConstraints:
         - maxSkew: 1
@@ -142,5 +152,5 @@ spec:
           whenUnsatisfiable: "DoNotSchedule"
           labelSelector:
             matchLabels:
-              postgres-operator.crunchydata.com/cluster: "postgres-16" # Replace *name with actual cluster name
+              postgres-operator.crunchydata.com/cluster: *name
               postgres-operator.crunchydata.com/role: "pgbouncer"
