@@ -51,14 +51,14 @@ spec:
         resources:
           requests:
             storage: 20Gi
-      topologySpreadConstraints:
-        - maxSkew: 1
-          topologyKey: "kubernetes.io/hostname"
-          whenUnsatisfiable: "DoNotSchedule"
-          labelSelector:
-            matchLabels:
-              postgres-operator.crunchydata.com/cluster: *name
-              postgres-operator.crunchydata.com/data: crunchy-postgres-vector
+      # topologySpreadConstraints:
+      #   - maxSkew: 1
+      #     topologyKey: "kubernetes.io/hostname"
+      #     whenUnsatisfiable: "DoNotSchedule"
+      #     labelSelector:
+      #       matchLabels:
+      #         postgres-operator.crunchydata.com/cluster: *name
+      #         postgres-operator.crunchydata.com/data: crunchy-postgres-vector
   users:
     # Superuser
     - name: *superuser
@@ -168,11 +168,11 @@ spec:
           client_tls_sslmode: prefer
           default_pool_size: "100"
           max_client_conn: "500"
-      topologySpreadConstraints:
-        - maxSkew: 1
-          topologyKey: kubernetes.io/hostname
-          whenUnsatisfiable: DoNotSchedule
-          labelSelector:
-            matchLabels:
-              postgres-operator.crunchydata.com/cluster: *name
-              postgres-operator.crunchydata.com/role: pgbouncer-vector
+      # topologySpreadConstraints:
+      #   - maxSkew: 1
+      #     topologyKey: kubernetes.io/hostname
+      #     whenUnsatisfiable: DoNotSchedule
+      #     labelSelector:
+      #       matchLabels:
+      #         postgres-operator.crunchydata.com/cluster: *name
+      #         postgres-operator.crunchydata.com/role: pgbouncer-vector
