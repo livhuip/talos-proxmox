@@ -73,9 +73,13 @@ spec:
             labels:
               app.kubernetes.io/name: crunchy-postgres
           replicas: &replica 1
-          dataVolumeClaimSpec: {} # Remove auto provisioning
-          dataVolumeClaim:
-            name: postgres-16-postgres-pgdata # Use the pre-created PVC
+          dataVolumeClaimSpec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 20Gi
+            storageClassName: openebs-hostpath # Required, even if PV is manually bound
 
       topologySpreadConstraints:
         - maxSkew: 1
