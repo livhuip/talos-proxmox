@@ -54,19 +54,29 @@ spec:
           - hostnossl all all 10.69.0.0/16 md5
           - hostssl all all all md5
 
-  instances:
-    - name: postgres
-      metadata:
-        labels:
-          app.kubernetes.io/name: crunchy-postgres
-      replicas: &replica 1
-      dataVolumeClaimSpec:
-        storageClassName: openebs-hostpath
-        accessModes:
-          - ReadWriteOnce
-        resources:
-          requests:
-            storage: 20Gi
+      # instances:
+      #   - name: postgres
+      #     metadata:
+      #       labels:
+      #         app.kubernetes.io/name: crunchy-postgres
+      #     replicas: &replica 1
+      #     dataVolumeClaimSpec:
+      #       storageClassName: openebs-hostpath
+      #       accessModes:
+      #         - ReadWriteOnce
+      #       resources:
+      #         requests:
+      #           storage: 20Gi
+      instances:
+        - name: postgres
+          metadata:
+            labels:
+              app.kubernetes.io/name: crunchy-postgres
+          replicas: &replica 1
+          dataVolumeClaimSpec: {} # Remove auto provisioning
+          dataVolumeClaim:
+            name: postgres-16-postgres-gdbl-pgdata # Use the pre-created PVC
+
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: "kubernetes.io/hostname"
