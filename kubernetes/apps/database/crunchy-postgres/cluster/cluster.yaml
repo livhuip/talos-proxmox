@@ -43,13 +43,13 @@ spec:
         resources:
           requests:
             storage: 20Gi
-      # topologySpreadConstraints:
-      #   - maxSkew: 1
-      #     topologyKey: "kubernetes.io/hostname"
-      #     whenUnsatisfiable: "ScheduleAnyway" #"DoNotSchedule"
-      #     labelSelector:
-      #       matchLabels:
-      #         postgres-operator.crunchydata.com/data: crunchy-postgres
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: "kubernetes.io/hostname"
+          whenUnsatisfiable: "DoNotSchedule"
+          labelSelector:
+            matchLabels:
+              postgres-operator.crunchydata.com/data: crunchy-postgres
   users:
     # Superuser
     - name: *superuser
@@ -58,62 +58,9 @@ spec:
       password: &password
         type: AlphaNumeric
     # Applications
-    # - name: "atuin"
-    #   databases: ["atuin"]
-    #   password: *password
-    # - name: "authentik"
-    #   databases: ["authentik"]
-    #   password: *password
-    # - name: "gatus"
-    #   databases: ["gatus"]
-    #   password: *password
-    # - name: "grafana"
-    #   databases: ["grafana"]
-    #   password: *password
-    # - name: "gramps"
-    #   databases:
-    #     - gramps
-    #     - gramps_users
-    #     - gramps_search
-    #   password: *password
-    # - name: "homebox"
-    #   databases: ["homebox"]
-    #   password: *password
-    # - name: "invidious"
-    #   databases: ["invidious"]
-    #   password: *password
-    # - name: lidarr
-    #   databases:
-    #     - lidarr_main
-    #     - lidarr_log
-    #   password: *password
-    # - name: "lldap"
-    #   databases: ["lldap"]
-    #   password: *password
-    # - name: "lubelog"
-    #   databases: ["lubelog"]
-    #   password: *password
-    # - name: "miniflux"
-    #   databases: ["miniflux"]
-    #   password: *password
-    # - name: "n8n"
-    #   databases: ["n8n"]
-    #   password: *password
     - name: "nextcloud"
       databases: ["nextcloud"]
       password: *password
-    # - name: "nocodb"
-    #   databases: ["nocodb"]
-    #   password: *password
-    # - name: "paperless"
-    #   databases: ["paperless"]
-    #   password: *password
-    # - name: "shlink"
-    #   databases: ["shlink"]
-    #   password: *password
-    # - name: "vikunja"
-    #   databases: ["vikunja"]
-    #   password: *password
 
   backups:
     pgbackrest:
@@ -195,7 +142,7 @@ spec:
         metadata:
           annotations:
             external-dns.alpha.kubernetes.io/hostname: cpgo.${SECRET_DOMAIN}
-            lbipam.cilium.io/ips: 10.0.10.6
+            lbipam.cilium.io/ips: 10.0.10.3
         type: LoadBalancer
       port: 5432
       replicas: *replicas
@@ -207,11 +154,11 @@ spec:
           client_tls_sslmode: prefer
           default_pool_size: "100"
           max_client_conn: "500"
-      # topologySpreadConstraints:
-      #   - maxSkew: 1
-      #     topologyKey: kubernetes.io/hostname
-      #     whenUnsatisfiable: ScheduleAnyway #DoNotSchedule
-      #     labelSelector:
-      #       matchLabels:
-      #         postgres-operator.crunchydata.com/cluster: *name
-      #         postgres-operator.crunchydata.com/role: pgbouncer
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              postgres-operator.crunchydata.com/cluster: *name
+              postgres-operator.crunchydata.com/role: pgbouncer
