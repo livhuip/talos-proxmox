@@ -75,7 +75,7 @@ spec:
           replicas: &replica 1
           dataVolumeClaimSpec: {} # Remove auto provisioning
           dataVolumeClaim:
-            name: postgres-16-postgres-gdbl-pgdata # Use the pre-created PVC
+            name: postgres-16-postgres-pgdata # Use the pre-created PVC
 
       topologySpreadConstraints:
         - maxSkew: 1
