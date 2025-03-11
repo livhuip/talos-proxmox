@@ -67,28 +67,28 @@ spec:
       #       resources:
       #         requests:
       #           storage: 20Gi
-      instances:
-        - name: postgres
-          metadata:
-            labels:
-              app.kubernetes.io/name: crunchy-postgres
-          replicas: &replica 1
-          dataVolumeClaimSpec:
-            accessModes:
-              - ReadWriteOnce
-            resources:
-              requests:
-                storage: 20Gi
-            storageClassName: openebs-hostpath # Required, even if PV is manually bound
+  instances:
+    - name: postgres
+      metadata:
+        labels:
+          app.kubernetes.io/name: crunchy-postgres
+      replicas: &replica 1
+      dataVolumeClaimSpec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 20Gi
+        storageClassName: openebs-hostpath # Required, even if PV is manually bound
 
-      topologySpreadConstraints:
-        - maxSkew: 1
-          topologyKey: "kubernetes.io/hostname"
-          whenUnsatisfiable: "ScheduleAnyway"
-          labelSelector:
-            matchLabels:
-              postgres-operator.crunchydata.com/cluster: *name
-              postgres-operator.crunchydata.com/data: postgres
+  # topologySpreadConstraints:
+  #   - maxSkew: 1
+  #     topologyKey: "kubernetes.io/hostname"
+  #     whenUnsatisfiable: "ScheduleAnyway"
+  #     labelSelector:
+  #       matchLabels:
+  #         postgres-operator.crunchydata.com/cluster: *name
+  #         postgres-operator.crunchydata.com/data: postgres
 
   users:
     - name: "postgres"
