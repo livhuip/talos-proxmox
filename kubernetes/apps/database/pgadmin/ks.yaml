@@ -15,7 +15,7 @@ spec:
   dependsOn:
     - name: volsnyc
       namespace: storage
-  path: ./kubernetes/main/apps/database/pgadmin/app
+  path: ./kubernetes/apps/database/pgadmin/app
   prune: true
   sourceRef:
     kind: GitRepository
