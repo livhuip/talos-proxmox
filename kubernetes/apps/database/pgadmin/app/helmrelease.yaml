@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: pgadmin
+  name: &app pgadmin
 spec:
   interval: 30m
   chart:
@@ -27,7 +27,7 @@ spec:
     strategy:
       type: Recreate
     env:
-      email: ${SECRET_ADMIN_EMAIL}
+      email: chrisadmin@hayani.xyz
     existingSecret: pgadmin-secrets
     ingress:
       enabled: true
@@ -36,7 +36,7 @@ spec:
         hajimari.io/appName: "Postgres Admin"
         hajimari.io/icon: simple-icons:postgresql
       hosts:
-        - host: pgadmin.${CLUSTER_DOMAIN}
+        - host: pgadmin.${SECRET_DOMAIN}
           paths:
             - path: /
               pathType: Prefix
@@ -44,7 +44,7 @@ spec:
       enabled: false
     persistentVolume:
       enabled: true
-      existingClaim: ${VOLSYNC_CLAIM}
+      existingClaim: *app #${VOLSYNC_CLAIM}
     resources:
       requests:
         cpu: 15m
