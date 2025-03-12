@@ -32,7 +32,7 @@ spec:
     nextcloud:
       extraEnv:
         - name: REDIS_HOST
-          value: dragonfly.infrastructure.svc.cluster.local.
+          value: dragonfly.database.svc.cluster.local.
         - name: REDIS_HOST_PORT
           value: "6379"
         - name: REDIS_HOST_PASSWORD
@@ -50,16 +50,16 @@ spec:
             secretKeyRef:
               name: nextcloud-secret
               key: S3_SECRET_KEY
-        - name: NEXTCLOUD_OAUTH_CLIENT_SECRET
-          valueFrom:
-            secretKeyRef:
-              name: nextcloud-secret
-              key: NEXTCLOUD_OAUTH_CLIENT_SECRET
-        - name: NEXTCLOUD_OAUTH_CLIENT_ID
-          valueFrom:
-            secretKeyRef:
-              name: nextcloud-secret
-              key: NEXTCLOUD_OAUTH_CLIENT_ID
+        # - name: NEXTCLOUD_OAUTH_CLIENT_SECRET
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: nextcloud-secret
+        #       key: NEXTCLOUD_OAUTH_CLIENT_SECRET
+        # - name: NEXTCLOUD_OAUTH_CLIENT_ID
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: nextcloud-secret
+        #       key: NEXTCLOUD_OAUTH_CLIENT_ID
 
       existingSecret:
         enabled: true
@@ -69,14 +69,14 @@ spec:
 
       host: nextcloud.${SECRET_DOMAIN}
 
-      mail:
-        enabled: true
-        fromAddress: nextcloud.${SECRET_DOMAIN}
-        domain: ${SECRET_DOMAIN}
-        smtp:
-          host: smtp-relay.infrastructure.svc.cluster.local
-          secure: ""
-          port: 2525
+      # mail:
+      #   enabled: true
+      #   fromAddress: nextcloud.${SECRET_DOMAIN}
+      #   domain: ${SECRET_DOMAIN}
+      #   smtp:
+      #     host: smtp.gmail.com
+      #     secure: ""
+      #     port: 587
       defaultConfigs:
         s3.config.php: false
       configs:
@@ -161,7 +161,7 @@ spec:
     externalDatabase:
       enabled: true
       type: postgresql
-      host: postgres-16-primary.infrastructure.svc.cluster.local:5432
+      host: postgres-16-primary.database.svc.cluster.local:5432
       database: nc
       existingSecret:
         enabled: true
