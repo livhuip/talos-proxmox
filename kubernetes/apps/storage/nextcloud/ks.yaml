@@ -6,15 +6,16 @@ metadata:
   name: &app nextcloud
   namespace: flux-system
 spec:
-  targetNamespace: default
+  targetNamespace: storage
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/apps/default/nextcloud/app
+  path: ./kubernetes/apps/storage/nextcloud/app
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-kubernetes
+    name: flux-system
+    namespace: flux-system
   wait: false
   interval: 30m
   retryInterval: 1m
