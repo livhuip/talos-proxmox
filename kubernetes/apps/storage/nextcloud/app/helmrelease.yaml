@@ -115,7 +115,7 @@ spec:
             'objectstore' => array(
               'class' => '\\OC\\Files\\ObjectStore\\S3',
               'arguments' => array(
-                'hostname'       => 's3.hoohoot.org',
+                'hostname'       => 'http://minio.storage.svc.cluster.local:9000',
                 'port'           => 443,
                 'use_path_style' => true,
                 'bucket'         => 'nextcloud-data',
