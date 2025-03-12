@@ -12,7 +12,7 @@ spec:
       app.kubernetes.io/name: *app
   path: ./kubernetes/apps/storage/nextcloud/app
   components:
-    - ../../../components/volsync
+    - ../../../../components/volsync
   prune: true
   sourceRef:
     kind: GitRepository
