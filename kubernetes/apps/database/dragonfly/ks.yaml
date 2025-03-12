@@ -6,15 +6,16 @@ metadata:
   name: &app dragonfly
   namespace: flux-system
 spec:
-  targetNamespace: infrastructure
+  targetNamespace: database
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/apps/infrastructure/dragonfly/app
+  path: ./kubernetes/apps/database/dragonfly/app
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-kubernetes
+    name: flux-system
+    namespace: flux-system
   wait: true
   interval: 30m
   retryInterval: 1m
@@ -27,17 +28,18 @@ metadata:
   name: &app dragonfly-cluster
   namespace: flux-system
 spec:
-  targetNamespace: infrastructure
+  targetNamespace: database
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: dragonfly
-  path: ./kubernetes/apps/infrastructure/dragonfly/cluster
+  path: ./kubernetes/apps/database/dragonfly/cluster
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-kubernetes
+    name: flux-system
+    namespace: flux-system
   wait: true
   interval: 30m
   retryInterval: 1m
