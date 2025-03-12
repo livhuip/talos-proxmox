@@ -2,12 +2,12 @@
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
-  name: cpgo-postgres
+  name: cpgo-vector-postgres
 spec:
-  jobLabel: cpgo-postgres
+  jobLabel: cpgo-vector-postgres
   namespaceSelector:
     matchNames:
-      - database
+      - infrastructure
   podMetricsEndpoints:
     - honorLabels: true
       path: /metrics
@@ -33,5 +33,5 @@ spec:
           targetLabel: instance
   selector:
     matchLabels:
-      postgres-operator.crunchydata.com/cluster: postgres-16
+      postgres-operator.crunchydata.com/cluster: postgres-16-vector
       postgres-operator.crunchydata.com/crunchy-postgres-exporter: "true"
