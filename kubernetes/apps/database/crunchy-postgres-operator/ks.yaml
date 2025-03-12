@@ -6,11 +6,11 @@ metadata:
   name: &app crunchy-postgres-operator
   namespace: flux-system
 spec:
-  targetNamespace: infrastructure
+  targetNamespace: database
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/apps/infrastructure/crunchy-postgres-operator/operator
+  path: ./kubernetes/apps/database/crunchy-postgres-operator/operator
   prune: true
   sourceRef:
     kind: GitRepository
@@ -27,11 +27,11 @@ metadata:
   name: &appname crunchy-postgres-operator-cluster
   namespace: flux-system
 spec:
-  targetNamespace: infrastructure
+  targetNamespace: database
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  path: ./kubernetes/apps/infrastructure/crunchy-postgres-operator/cluster
+  path: ./kubernetes/apps/database/crunchy-postgres-operator/cluster
   prune: true
   sourceRef:
     kind: GitRepository
@@ -50,11 +50,11 @@ metadata:
   name: &appname crunchy-cluster-vector
   namespace: flux-system
 spec:
-  targetNamespace: infrastructure
+  targetNamespace: database
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  path: ./kubernetes/apps/infrastructure/crunchy-postgres-operator/vector-cluster
+  path: ./kubernetes/apps/database/crunchy-postgres-operator/vector-cluster
   prune: true
   sourceRef:
     kind: GitRepository
@@ -73,11 +73,11 @@ metadata:
   name: &appname crunchy-postgres-userinit-controller
   namespace: flux-system
 spec:
-  targetNamespace: infrastructure
+  targetNamespace: database
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  path: ./kubernetes/apps/infrastructure/crunchy-postgres-operator/userinit-controller
+  path: ./kubernetes/apps/database/crunchy-postgres-operator/userinit-controller
   prune: true
   sourceRef:
     kind: GitRepository
@@ -96,11 +96,11 @@ metadata:
   name: &appname crunchy-postgres-secret-store
   namespace: flux-system
 spec:
-  targetNamespace: infrastructure
+  targetNamespace: database
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  path: ./kubernetes/apps/infrastructure/crunchy-postgres-operator/cluster-secret-store
+  path: ./kubernetes/apps/database/crunchy-postgres-operator/cluster-secret-store
   prune: true
   sourceRef:
     kind: GitRepository
