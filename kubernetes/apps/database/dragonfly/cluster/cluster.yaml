@@ -57,6 +57,7 @@ spec:
     - --cluster_mode=emulated
     - --lock_on_hashtags
     - --s3_endpoint=${SECRET_S3_ENDPOINT}
+    - --platform linux/arm64
     # - --requirepass=$(REDIS_PASSWORD)
   env:
     - name: MAX_MEMORY
