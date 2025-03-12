@@ -7,7 +7,7 @@ spec:
   jobLabel: cpgo-vector-postgres
   namespaceSelector:
     matchNames:
-      - infrastructure
+      - database
   podMetricsEndpoints:
     - honorLabels: true
       path: /metrics
