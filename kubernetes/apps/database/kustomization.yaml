@@ -11,6 +11,7 @@ resources:
   - ./crunchy-postgres-operator/ks.yaml
   - ./dragonfly/ks.yaml
   - ./pgadmin/ks.yaml
+  - ./redis/ks.yaml
   # - ./emqx/ks.yaml
   # - ./influx/ks.yaml
 components:
