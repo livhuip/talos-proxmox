@@ -27,7 +27,7 @@ spec:
     image:
       flavor: fpm
     nextcloud:
-      host: nextcloud.${SECRET_DOMAIN}
+      host: https://nextcloud.${SECRET_DOMAIN}
       extraInitContainers:
         - name: init-db
           image: ghcr.io/onedr0p/postgres-init:16.8
