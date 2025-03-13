@@ -9,8 +9,8 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  components:
-    - ../../../../components/volsync
+  # components:
+  #   - ../../../../components/volsync
   # dependsOn:
   #   - name: postgres-cluster
   #     namespace: database
@@ -24,20 +24,20 @@ spec:
   #     namespace: storage
   interval: 30m
   path: ./kubernetes/apps/storage/nextcloud/app
-  postBuild:
-    substitute:
-      APP: *app
-      # HOSTNAME: files.${PUBLIC_DOMAIN}
-      # AUTH_HOSTNAME: auth.${PUBLIC_DOMAIN}
-      APP_UID: "0"
-      APP_GID: "0"
-      VOLSYNC_CLAIM: nextcloud-config
-      VOLSYNC_CAPACITY: 5Gi
-      VOLSYNC_CACHE_CAPACITY: 5Gi
-      # VOLSYNC_STORAGECLASS: truenas-ssd-nfs
-      # VOLSYNC_SNAPSHOTCLASS: truenas-ssd-nfs
-      # VOLSYNC_ACCESSMODES: ReadWriteMany
-      VOLSYNC_TIME: 0 6 * * *
+  # postBuild:
+  #   substitute:
+  #     APP: *app
+  #     # HOSTNAME: files.${PUBLIC_DOMAIN}
+  #     # AUTH_HOSTNAME: auth.${PUBLIC_DOMAIN}
+  #     APP_UID: "0"
+  #     APP_GID: "0"
+  #     VOLSYNC_CLAIM: nextcloud-config
+  #     VOLSYNC_CAPACITY: 5Gi
+  #     VOLSYNC_CACHE_CAPACITY: 5Gi
+  #     # VOLSYNC_STORAGECLASS: truenas-ssd-nfs
+  #     # VOLSYNC_SNAPSHOTCLASS: truenas-ssd-nfs
+  #     # VOLSYNC_ACCESSMODES: ReadWriteMany
+  #     VOLSYNC_TIME: 0 6 * * *
   prune: true
   sourceRef:
     kind: GitRepository
