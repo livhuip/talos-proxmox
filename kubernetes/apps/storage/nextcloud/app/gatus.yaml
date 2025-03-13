@@ -10,13 +10,13 @@ data:
     endpoints:
       - name: Files
         group: Applications
-        url: https://files.${PUBLIC_DOMAIN}/status.php
+        url: https://files.${SECRET_DOMAIN}/status.php
         interval: 1m
         ui:
           hide-hostname: true
           hide-url: true
         client:
-          dns-resolver: tcp://10.1.2.1:53
+          dns-resolver: tcp://1.1.1.1:53
         conditions:
           - "[STATUS] == 200"
         alerts:

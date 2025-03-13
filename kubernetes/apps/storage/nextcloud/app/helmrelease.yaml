@@ -49,33 +49,33 @@ spec:
             secretKeyRef:
               name: *secret
               key: S3_SECRET_KEY
-        - name: OIDC_CLIENT_ID
-          valueFrom:
-            secretKeyRef:
-              name: *secret
-              key: OIDC_CLIENT_ID
-        - name: OIDC_CLIENT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: *secret
-              key: OIDC_CLIENT_PASSWORD
+        # - name: OIDC_CLIENT_ID
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: *secret
+        #       key: OIDC_CLIENT_ID
+        # - name: OIDC_CLIENT_PASSWORD
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: *secret
+        #       key: OIDC_CLIENT_PASSWORD
       existingSecret:
         enabled: true
         secretName: *secret
         usernameKey: ADMIN_USER
         passwordKey: ADMIN_PASS
-        tokenKey: METRICS_TOKEN
-        smtpHostKey: SMTP_HOST
-        smtpUsernameKey: SMTP_USERNAME
-        smtpPasswordKey: SMTP_PASSWORD
-      mail:
-        enabled: true
-        fromAddress: files
-        domain: "${PUBLIC_DOMAIN}"
-        smtp:
-          secure: ssl
-          port: 465
-          authtype: LOGIN
+        # tokenKey: METRICS_TOKEN
+        # smtpHostKey: SMTP_HOST
+        # smtpUsernameKey: SMTP_USERNAME
+        # smtpPasswordKey: SMTP_PASSWORD
+      # mail:
+      #   enabled: true
+      #   fromAddress: files
+      #   domain: "${PUBLIC_DOMAIN}"
+      #   smtp:
+      #     secure: ssl
+      #     port: 465
+      #     authtype: LOGIN
       defaultConfigs:
         redis.config.php: false
         s3.config.php: false
@@ -140,8 +140,8 @@ spec:
             'objectstore' => array(
               'class' => '\\OC\\Files\\ObjectStore\\S3',
               'arguments' => array(
-                'hostname'       => 's3.${PRIVATE_DOMAIN}',
-                'port'           => 443,
+                'hostname'       => 'http://minio.storage.svc.cluster.local',
+                'port'           => 9000,
                 'bucket'         => getenv('S3_ACCESS_KEY'),
                 'autocreate'     => false,
                 'key'            => getenv('S3_ACCESS_KEY'),
