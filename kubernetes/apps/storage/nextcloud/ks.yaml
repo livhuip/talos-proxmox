@@ -1,28 +1,47 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/ishioni/CRDs-catalog/main/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app nextcloud
-  namespace: flux-system
+  namespace: &namespace selfhosted
 spec:
-  targetNamespace: storage
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/apps/storage/nextcloud/app
   components:
     - ../../../../components/volsync
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  wait: false
+  dependsOn:
+    - name: postgres-cluster
+      namespace: database
+    - name: dragonfly-cluster
+      namespace: database
+    - name: onepassword-store
+      namespace: security
+    - name: democratic-csi-nfs
+      namespace: storage
+    - name: volsync
+      namespace: storage
   interval: 30m
-  retryInterval: 1m
-  timeout: 5m
+  path: ./kubernetes/apps/selfhosted/nextcloud/app
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CAPACITY: 20Gi
+      HOSTNAME: files.${PUBLIC_DOMAIN}
+      AUTH_HOSTNAME: auth.${PUBLIC_DOMAIN}
+      APP_UID: "0"
+      APP_GID: "0"
+      VOLSYNC_CLAIM: nextcloud-config
+      VOLSYNC_CAPACITY: 5Gi
+      VOLSYNC_CACHE_CAPACITY: 5Gi
+      VOLSYNC_STORAGECLASS: truenas-ssd-nfs
+      VOLSYNC_SNAPSHOTCLASS: truenas-ssd-nfs
+      VOLSYNC_ACCESSMODES: ReadWriteMany
+      VOLSYNC_TIME: 0 6 * * *
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: homelab-ops
+    namespace: flux-system
+  targetNamespace: *namespace
+  wait: true
