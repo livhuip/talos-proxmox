@@ -83,8 +83,8 @@ spec:
       options: "SUPERUSER"
       password:
         type: AlphaNumeric
-    - name: "nc"
-      databases: ["nc"]
+    - name: "nextcloud"
+      databases: ["nextcloud"]
       password:
         type: AlphaNumeric
     # - name: "gatus"
