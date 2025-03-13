@@ -33,7 +33,7 @@ spec:
           image: ghcr.io/onedr0p/postgres-init:16.8
           envFrom:
             - secretRef:
-                name: nextcloud-db-secret
+                name: nextcloud-db-init
       extraEnv:
         - name: REDIS_HOST
           value: dragonfly.database.svc.cluster.local
