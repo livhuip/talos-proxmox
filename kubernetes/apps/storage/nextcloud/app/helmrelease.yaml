@@ -39,7 +39,7 @@ spec:
             ]
           volumeMounts:
             - mountPath: /var/www/html
-              name: nextcloud-data
+              name: nextcloud-config
 
         # extraInitContainers:
         - name: init-db
