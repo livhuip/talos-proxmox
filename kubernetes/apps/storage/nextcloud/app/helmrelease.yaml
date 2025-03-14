@@ -29,6 +29,19 @@ spec:
     nextcloud:
       host: https://nextcloud.hayani.xyz
       extraInitContainers:
+        - name: fix-permissions
+          image: busybox
+          command:
+            [
+              "sh",
+              "-c",
+              "chown -R 33:33 /var/www/html && chmod -R 755 /var/www/html",
+            ]
+          volumeMounts:
+            - mountPath: /var/www/html
+              name: nextcloud-data
+
+        # extraInitContainers:
         - name: init-db
           image: ghcr.io/onedr0p/postgres-init:16.8
           envFrom:
