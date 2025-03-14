@@ -27,7 +27,7 @@ spec:
     image:
       flavor: fpm
     nextcloud:
-      host: https://nextcloud.hayani.xyz
+      host: nextcloud.hayani.xyz
       extraInitContainers:
         - name: fix-permissions
           image: busybox
