@@ -35,7 +35,7 @@ spec:
       VOLSYNC_CAPACITY: 5Gi
       VOLSYNC_CACHE_CAPACITY: 5Gi
       VOLSYNC_STORAGECLASS: nfs-slow
-      VOLSYNC_SNAPSHOTCLASS: nfs-slow
+      # VOLSYNC_SNAPSHOTCLASS: nfs-slow
       VOLSYNC_ACCESSMODES: ReadWriteMany
       VOLSYNC_TIME: 0 6 * * *
   prune: true
