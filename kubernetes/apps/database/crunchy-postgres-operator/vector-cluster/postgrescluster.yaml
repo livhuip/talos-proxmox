@@ -6,7 +6,7 @@ metadata:
   name: &name postgres-16-vector
 spec:
   postgresVersion: 16
-  image: ghcr.io/drag0n141/cdpgvector:0.3.0@sha256:0c0cdea03433d3e660239f21d0d17a80d5739fd24f58ae83f708cad344c83342
+  image: ghcr.io/drag0n141/cdpgvector:0.4.0@sha256:81efdee3ac505369525b4a2a3ca2fcf9d7e0f2f09242632fa9700f5f2bbf63c5
 
   # dataSource:
   #   pgbackrest:
