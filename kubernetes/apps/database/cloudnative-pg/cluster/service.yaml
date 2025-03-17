@@ -9,7 +9,7 @@ spec:
   type: LoadBalancer
   externalIPs: [""]
   externalTrafficPolicy: Local
-  ipFamilies: [IPv4, IPv6]
+  ipFamilies: [IPv4]
   ipFamilyPolicy: PreferDualStack
   ports:
     - name: postgres
