@@ -59,7 +59,7 @@ spec:
                   secretKeyRef:
                     name: cloudnative-pg-secret
                     key: password
-              TZ: ${TIMEZONE:=Etc/UTC}
+              TZ: ${TIMEZONE:=Africa/Johannesburg}
             command:
               - "/bin/sh"
             args:
@@ -74,5 +74,5 @@ spec:
     persistence:
       backup:
         type: nfs
-        server: ${SECRET_BACKUP_SERVER:=fnord}
-        path: /backup/data/k8s/postgres
+        server: ${NAS_IP}
+        path: /mnt/datastore/kubebackup/cloudnative

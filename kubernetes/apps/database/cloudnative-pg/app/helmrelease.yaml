@@ -23,7 +23,7 @@ spec:
       strategy: rollback
       retries: 3
   dependsOn:
-    - name: openebs
+    - name: openebs-localpv-provisioner
       namespace: storage
   values:
     crds:
