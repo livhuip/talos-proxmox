@@ -32,3 +32,4 @@ resources:
   - ./descheduler.yaml
   - ./nextcloud.yaml
   - ./runix.yaml
+  - ./cloudnative-pg.yaml
