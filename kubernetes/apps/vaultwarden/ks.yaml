@@ -40,7 +40,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./kubernetes/apps/vaultwarden/app
+  path: ./kubernetes/apps/vaultwarden/app/test
   components:
     - ../../../components/volsync
     - ../../../components/gatus/external
