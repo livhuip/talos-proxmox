@@ -79,17 +79,17 @@ spec:
     #       externalCluster: kochhaus-pg15
 
   # Note: externalClusters is needed when recovering from an existing cnpg cluster
-  externalClusters:
-    - name: *previousCluster
-      barmanObjectStore:
-        <<: *barmanObjectStore
-        serverName: *previousCluster
-    # - name: kochhaus-pg15
-    #   connectionParameters:
-    #     host: kochhaus-v15-ro.dbms
-    #     user: postgres
-    #     dbname: postgres
-    #     sslmode: require
-    #   password:
-    #     name: cloudnative-pg-secret
-    #     key: password
+  # externalClusters:
+  #   - name: *previousCluster
+  #     barmanObjectStore:
+  #       <<: *barmanObjectStore
+  #       serverName: *previousCluster
+  #   # - name: kochhaus-pg15
+  #   #   connectionParameters:
+  #   #     host: kochhaus-v15-ro.dbms
+  #   #     user: postgres
+  #   #     dbname: postgres
+  #   #     sslmode: require
+  #   #   password:
+  #   #     name: cloudnative-pg-secret
+  #   #     key: password
