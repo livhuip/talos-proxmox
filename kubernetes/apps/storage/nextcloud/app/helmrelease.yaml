@@ -24,8 +24,8 @@ spec:
       strategy: rollback
       retries: 3
   dependsOn:
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
+    - name: rook-ceph-operator
+      namespace: rook-ceph-external
     - name: volsync
       namespace: storage
   values:
@@ -46,20 +46,20 @@ spec:
       datadir: /var/www/data
       extraEnv:
         - name: REDIS_HOST
-          value: dragonfly.database.svc.cluster.local.
+          value: redis.database.svc.cluster.local #dragonfly.database.svc.cluster.local.
         - name: REDIS_HOST_PORT
           value: "6379"
       existingSecret:
         enabled: true
         secretName: nextcloud-secret
-        smtpHostKey: smtp_host
-        smtpUsernameKey: smtp_username
-        smtpPasswordKey: smtp_password
+        # smtpHostKey: smtp_host
+        # smtpUsernameKey: smtp_username
+        # smtpPasswordKey: smtp_password
       host: &host cloud.${SECRET_DOMAIN}
-      mail:
-        enabled: true
-        fromAddress: admin
-        domain: ${SECRET_DOMAIN}
+      # mail:
+      #   enabled: true
+      #   fromAddress: admin
+      #   domain: ${SECRET_DOMAIN}
       securityContext:
         runAsUser: 1022
         runAsGroup: 1022
@@ -82,7 +82,7 @@ spec:
         misc.config.php: |-
           <?php
           $CONFIG = array (
-            'default_phone_region' => 'DE',
+            'default_phone_region' => 'ZA',
             'maintenance_window_start' => 2,
           ); ?>
     internalDatabase:

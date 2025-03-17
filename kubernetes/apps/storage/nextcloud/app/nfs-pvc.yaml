@@ -11,8 +11,8 @@ spec:
   storageClassName: nextcloud-nfs
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    server: "nas.${SECRET_DOMAIN}"
-    path: /mnt/user/nextcloud
+    server: "${NAS_IP}"
+    path: /mnt/datastore/k3sdata/nextcloud
   mountOptions:
     - nfsvers=4.2
     - nconnect=8

@@ -6,8 +6,8 @@ metadata:
   name: &app nextcloud
   namespace: flux-system
 spec:
-  targetNamespace: default
-  path: ./kubernetes/apps/default/nextcloud/app
+  targetNamespace: database
+  path: ./kubernetes/apps/database/nextcloud/app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -20,5 +20,5 @@ spec:
       APP: *app
       GATUS_SUBDOMAIN: cloud
       VOLSYNC_CAPACITY: 5Gi
-      VOLSYNC_UID: "1022"
-      VOLSYNC_GID: "1022"
+      # VOLSYNC_UID: "1022"
+      # VOLSYNC_GID: "1022"
