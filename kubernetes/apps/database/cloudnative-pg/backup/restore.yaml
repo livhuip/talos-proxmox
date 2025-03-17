@@ -12,8 +12,8 @@ spec:
       volumes:
         - name: backup
           nfs:
-            server: ${SECRET_BACKUP_SERVER}
-            path: /backup/data/k8s/postgres
+            server: ${NAS_IP}
+            path: /mnt/datastore/kubebackup/cloudnative
 
       securityContext:
         fsGroup: 1022
@@ -30,7 +30,7 @@ spec:
             - "gunzip < /backup/kochhaus-cluster.dump.gz | pg_restore -U $PGUSER -f -"
           env:
             - name: PGHOST
-              value: postgres-rw.dbms
+              value: postgres-rw.database
             - name: PGPORT
               value: "5432"
             - name: PGUSER
@@ -41,7 +41,7 @@ spec:
                   name: cloudnative-pg-secret
                   key: password
             - name: TZ
-              value: ${TIMEZONE:=Etc/UTC}
+              value: ${TIMEZONE:=Africa/johannesburg}
           volumeMounts:
             - name: backup
               mountPath: /backup
