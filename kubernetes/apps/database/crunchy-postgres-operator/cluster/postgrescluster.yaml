@@ -27,7 +27,7 @@ spec:
         name: repo1
         s3:
           bucket: postgresql-cunchy
-          endpoint: s3.${SECRET_S3_ENDPOINT}
+          endpoint: http://minio.storage.svc.cluster.local:9000
           region: "us-east-1"
 
   metadata:
