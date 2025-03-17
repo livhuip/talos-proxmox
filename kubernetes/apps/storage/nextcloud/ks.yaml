@@ -8,16 +8,16 @@ metadata:
 spec:
   targetNamespace: storage
   path: ./kubernetes/apps/storage/nextcloud/app
-  # components:
-  #   - ../../../../components/volsync
-  #   - ../../../../components/gatus/guarded
-  # postBuild:
-  #   substitute:
-  #     APP: *app
-  #     GATUS_SUBDOMAIN: cloud
-  #     VOLSYNC_CAPACITY: 5Gi
-  #     # VOLSYNC_UID: "1022"
-  #     # VOLSYNC_GID: "1022"
+  components:
+    - ../../../../components/volsync
+    - ../../../../components/gatus/guarded
+  postBuild:
+    substitute:
+      APP: *app
+      GATUS_SUBDOMAIN: cloud
+      VOLSYNC_CAPACITY: 5Gi
+      # VOLSYNC_UID: "1022"
+      # VOLSYNC_GID: "1022"
   prune: true
   sourceRef:
     kind: GitRepository
