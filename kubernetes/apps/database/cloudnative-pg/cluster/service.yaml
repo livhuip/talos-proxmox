@@ -7,7 +7,7 @@ metadata:
     external-dns.alpha.kubernetes.io/hostname: postgres.${SECRET_DOMAIN}
 spec:
   type: LoadBalancer
-  externalIPs: [""]
+  externalIPs: ["10.0.10.8"]
   externalTrafficPolicy: Local
   ipFamilies: [IPv4]
   ipFamilyPolicy: PreferDualStack
