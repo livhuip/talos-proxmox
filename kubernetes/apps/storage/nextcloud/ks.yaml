@@ -8,13 +8,8 @@ metadata:
 spec:
   targetNamespace: database
   path: ./kubernetes/apps/database/nextcloud/app
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  wait: false
-  interval: 30m
-  timeout: 15m
+  components:
+    - ../../../../components/volsync
   postBuild:
     substitute:
       APP: *app
@@ -22,3 +17,10 @@ spec:
       VOLSYNC_CAPACITY: 5Gi
       # VOLSYNC_UID: "1022"
       # VOLSYNC_GID: "1022"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: false
+  interval: 30m
+  timeout: 15m
