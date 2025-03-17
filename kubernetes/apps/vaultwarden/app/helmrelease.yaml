@@ -55,8 +55,8 @@ spec:
             envFrom:
               - secretRef:
                   name: vaultwarden-secret
-              # - secretRef:
-              #     name: vaultwarden-db-secret
+              - secretRef:
+                  name: vaultwarden-db-secret
             resources:
               requests:
                 cpu: 100m
