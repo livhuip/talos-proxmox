@@ -28,9 +28,9 @@ metadata:
   name: cloudnative-pg-cluster
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: cloudnative-pg
-    - name: openebs
+  # dependsOn:
+  #   - name: cloudnative-pg
+  #   - name: openebs
   path: ./kubernetes/apps/database/cloudnative-pg/cluster
   prune: true
   sourceRef:
