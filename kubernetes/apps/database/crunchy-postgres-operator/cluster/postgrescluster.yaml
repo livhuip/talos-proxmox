@@ -91,10 +91,10 @@ spec:
     #   databases: ["gatus"]
     #   password:
     #     type: AlphaNumeric
-    # - name: "vaultwarden"
-    #   databases: ["vaultwarden"]
-    #   password:
-    #     type: AlphaNumeric
+    - name: "vaultwarden"
+      databases: ["vaultwarden"]
+      password:
+        type: AlphaNumeric
 
   backups:
     pgbackrest:
