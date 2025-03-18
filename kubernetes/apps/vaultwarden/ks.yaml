@@ -55,8 +55,8 @@ spec:
       namespace: database
     - name: onepassword
       namespace: external-secrets
-    - name: haproxy
-      namespace: rook-ceph-external
+    # - name: haproxy
+    #   namespace: rook-ceph-external
     - name: volsync
       namespace: storage
   postBuild:
