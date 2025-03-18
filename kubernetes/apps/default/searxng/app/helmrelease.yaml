@@ -34,9 +34,16 @@ spec:
             image:
               repository: docker.io/searxng/searxng
               tag: 2025.1.3-a060c0985@sha256:3c3d4be014e04686922ef2c4b7ae146bab2f6396dd224b2e2dd28ae64221a3eb
-            command: ["uwsgi", "--master", "--http-socket", "0.0.0.0:8080", "/usr/local/searxng/dockerfiles/uwsgi.ini"]
+            command:
+              [
+                "uwsgi",
+                "--master",
+                "--http-socket",
+                "0.0.0.0:8080",
+                "/usr/local/searxng/dockerfiles/uwsgi.ini",
+              ]
             env:
-              BASE_URL: https://search.mapanare.net
+              BASE_URL: https://search.${SECRET_DOMAIN}
               UWSGI_WORKERS: &cpu
                 valueFrom:
                   resourceFieldRef:
@@ -88,7 +95,7 @@ spec:
         enabled: true
         className: internal
         hosts:
-          - host: "search.mapanare.net"
+          - host: "search.${SECRET_DOMAIN}"
             paths:
               - path: /
                 service:
