@@ -10,9 +10,9 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../../flux/components/gatus/internal
+    - ../../../../flux/components/gatus/guarded
   dependsOn:
-    - name: external-secrets-stores
+    - name: onepassword
       namespace: external-secrets
   path: ./kubernetes/apps/deafult/searxng/app
   prune: true
