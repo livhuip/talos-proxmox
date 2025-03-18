@@ -37,7 +37,7 @@ spec:
             env:
               TZ: ${CONFIG_TIMEZONE}
               UP_UNIFI_DEFAULT_ROLE: MoviNet
-              UP_UNIFI_DEFAULT_URL: https://192.168.86.1
+              UP_UNIFI_DEFAULT_URL: https://192.168.86.1:8443
               UP_UNIFI_DEFAULT_VERIFY_SSL: true
               UP_INFLUXDB_DISABLE: true
               UP_UNIFI_DYNAMIC: false
