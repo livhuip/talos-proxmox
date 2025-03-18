@@ -11,7 +11,7 @@ redis:
 
 search:
   autocomplete: duckduckgo
-  default_lang: en-US
+  default_lang: en-ZA
 
 general:
   instance_name: SearXNG
