@@ -86,6 +86,7 @@ kind: HelmRelease
 metadata:
   name: unpoller
 spec:
+  interval: 30m
   chart:
     spec:
       chart: app-template
@@ -94,50 +95,68 @@ spec:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-  interval: 30m
-  maxHistory: 3
-  uninstall:
-    keepHistory: false
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  dependsOn:
+    - name: kube-prometheus-stack
+      namespace: monitoring
   values:
     controllers:
       unpoller:
-        strategy: RollingUpdate
-        annotations:
-          secret.reloader.stakater.com/reload: &secret unpoller-secret
-        pod:
-          securityContext:
-            runAsUser: 568
-            runAsGroup: 568
-            fsGroup: 568
-            fsGroupChangePolicy: "OnRootMismatch"
         containers:
           app:
             image:
               repository: ghcr.io/unpoller/unpoller
-              tag: v2.14.1
+              tag: v2.14.1@sha256:9ba73b1793ef332ae9b4b719ef0fc09f231d6276bc7b721cbb47961ed7792961
             env:
               TZ: ${TIMEZONE}
-              UP_UNIFI_DEFAULT_ROLE: controller
+              UP_UNIFI_DEFAULT_ROLE: home-ops
               UP_UNIFI_DEFAULT_URL: https://192.168.86.1
-              UP_UNIFI_DEFAULT_VERIFY_SSL: false
-              UP_INFLUXDB_DISABLE: true
-              UP_UNIFI_DYNAMIC: false
+              UP_PROMETHEUS_HTTP_LISTEN: 0.0.0.0:80
+              UP_LOKI_DISABLE: false
+              UP_LOKI_URL: http://loki-gateway.monitoring.svc.cluster.local
+              UP_UNIFI_DEFAULT_SAVE_ALARMS: true
+              UP_UNIFI_DEFAULT_SAVE_ANOMALIES: true
               UP_UNIFI_DEFAULT_SAVE_DPI: true
+              UP_UNIFI_DEFAULT_SAVE_EVENTS: true
+              UP_UNIFI_DEFAULT_SAVE_IDS: true
+              UP_UNIFI_DEFAULT_SAVE_SITES: true
+              UP_INFLUXDB_DISABLE: true
             envFrom:
               - secretRef:
-                  name: *secret
+                  name: unpoller-secret
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
             resources:
               requests:
-                cpu: 15m
-                memory: 30Mi
+                cpu: 10m
               limits:
-                memory: 50Mi
+                memory: 128Mi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        runAsGroup: 65534
+        seccompProfile: { type: RuntimeDefault }
     service:
       app:
         controller: unpoller
         ports:
           http:
-            port: 9130
+            port: 80
     serviceMonitor:
       app:
         serviceName: unpoller
@@ -145,5 +164,5 @@ spec:
           - port: http
             scheme: http
             path: /metrics
-            interval: 15s
-            scrapeTimeout: 5s
+            interval: 2m # Unifi API only polls at 2m intervals
+            scrapeTimeout: 10s
