@@ -35,7 +35,7 @@ spec:
             env:
               TZ: ${TIMEZONE}
               DB_URL: /db/db_v2.sqlite3
-              RELAY: "10.0.10.20:21117"
+              RELAY: "10.0.10.25:21117"
             command: ["hbbs", "-r rustdesk-hbbr:21117"]
     # Because using docker host mode
     # Just in case you forgot the ports:
@@ -65,7 +65,7 @@ spec:
         controller: hbbs
         type: LoadBalancer
         annotations:
-          io.cilium/lb-ipam-ips: "10.0.10.20"
+          io.cilium/lb-ipam-ips: "10.0.10.25"
           external-dns.alpha.kubernetes.io/hostname: rustdesk.${SECRET_DOMAIN}
         ports:
           rustdesk-1:
