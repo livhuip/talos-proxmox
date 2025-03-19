@@ -1,55 +1,73 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.devbu.io/helmrelease_v2beta2.json
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: unifi-poller
 spec:
-  interval: 30h
+  interval: 15m
   chart:
     spec:
       chart: app-template
-      version: 3.7.3
+      version: 3.7.2
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+      strategy: rollback
+  uninstall:
+    keepHistory: false
   values:
     controllers:
-      main:
+      unpoller:
+        strategy: RollingUpdate
+        annotations:
+          secret.reloader.stakater.com/reload: &secret unifi-poller-secret
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/unpoller/unpoller
               tag: v2.14.1
+            envFrom:
+              - secretRef:
+                  name: *secret
             env:
-              TZ: "${TIMEZONE}"
+              TZ: Australia/Sydney
               UP_UNIFI_DEFAULT_ROLE: home-ops
-              UP_UNIFI_DEFAULT_URL: https://192.168.86.1:8443
-              UP_UNIFI_DEFAULT_VERIFY_SSL: false
-              UP_UNIFI_DEFAULT_USER: unifipoller
-              UP_UNIFI_DEFAULT_PASS: "${UP_UNIFI_DEFAULT_PASS}"
+              UP_UNIFI_DEFAULT_URL: https://192.168.86.:8443
+              UP_UNIFI_DEFAULT_VERIFY_SSL: true
+              UP_UNIFI_DEFAULT_SAVE_SITES: true
+              UP_UNIFI_DEFAULT_SAVE_DPI: true
               UP_INFLUXDB_DISABLE: true
+              UP_PROMETHEUS_DISABLE: false
+              UP_PROMETHEUS_NAMESPACE: unpoller
             resources:
               requests:
-                cpu: 10m
-                memory: 100Mi
+                cpu: 15m
+                memory: 30Mi
               limits:
-                memory: 500Mi
-
+                memory: 250Mi
     service:
-      main:
-        controller: main
+      app:
+        controller: unpoller
         ports:
           http:
             port: 9130
-
     serviceMonitor:
-      main:
-        serviceName: main
+      app:
+        enabled: true
+        serviceName: unifi-poller
         endpoints:
           - port: http
             scheme: http
             path: /metrics
-            interval: 5m
-            scrapeTimeout: 30s
+            scrapeTimeout: 5s
