@@ -41,7 +41,7 @@ spec:
               - secretRef:
                   name: *secret
             env:
-              TZ: Australia/Sydney
+              TZ: ${TIMEZONE}
               UP_UNIFI_DEFAULT_ROLE: home-ops
               UP_UNIFI_DEFAULT_URL: https://192.168.86.:8443
               UP_UNIFI_DEFAULT_VERIFY_SSL: true
