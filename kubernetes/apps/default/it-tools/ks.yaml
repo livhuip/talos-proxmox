@@ -3,15 +3,15 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app it-tools
-  namespace: &namespace utilities
+  namespace: &namespace default
 spec:
   targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../../flux/components/gatus/internal
-  path: ./kubernetes/apps/utilities/it-tools/app
+    - ../../../..components/gatus/guarded
+  path: ./kubernetes/apps/default/it-tools/app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -21,7 +21,7 @@ spec:
     - apiVersion: helm.toolkit.fluxcd.io/v2
       kind: HelmRelease
       name: *app
-      namespace: utilities
+      namespace: deafult
   interval: 30m
   retryInterval: 1m
   timeout: 3m
