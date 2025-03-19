@@ -1,68 +1,55 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
-apiVersion: helm.toolkit.fluxcd.io/v2
+# yaml-language-server: $schema=https://kubernetes-schemas.devbu.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: unpoller
+  name: unifi-poller
 spec:
+  interval: 30h
   chart:
     spec:
       chart: app-template
       version: 3.7.3
       sourceRef:
         kind: HelmRepository
-        name: bjw-s
+        name: bjw-s-charts
         namespace: flux-system
-  interval: 30m
-  maxHistory: 3
-  uninstall:
-    keepHistory: false
   values:
     controllers:
-      unpoller:
-        strategy: RollingUpdate
-        annotations:
-          secret.reloader.stakater.com/reload: &secret unpoller-secret
-        pod:
-          securityContext:
-            runAsUser: 568
-            runAsGroup: 568
-            fsGroup: 568
-            fsGroupChangePolicy: "OnRootMismatch"
+      main:
         containers:
-          app:
+          main:
             image:
               repository: ghcr.io/unpoller/unpoller
               tag: v2.14.1
             env:
-              TZ: ${CONFIG_TIMEZONE}
-              UP_UNIFI_DEFAULT_ROLE: MoviNet
+              TZ: "${TIMEZONE}"
+              UP_UNIFI_DEFAULT_ROLE: home-ops
               UP_UNIFI_DEFAULT_URL: https://192.168.86.1:8443
-              UP_UNIFI_DEFAULT_VERIFY_SSL: true
+              UP_UNIFI_DEFAULT_VERIFY_SSL: false
+              UP_UNIFI_DEFAULT_USER: unifipoller
+              UP_UNIFI_DEFAULT_PASS: "${UP_UNIFI_DEFAULT_PASS}"
               UP_INFLUXDB_DISABLE: true
-              UP_UNIFI_DYNAMIC: false
-              UP_UNIFI_DEFAULT_SAVE_DPI: true
-            envFrom:
-              - secretRef:
-                  name: *secret
             resources:
               requests:
-                cpu: 15m
-                memory: 30Mi
+                cpu: 10m
+                memory: 100Mi
               limits:
-                memory: 50Mi
+                memory: 500Mi
+
     service:
-      app:
-        controller: unpoller
+      main:
+        controller: main
         ports:
           http:
             port: 9130
+
     serviceMonitor:
-      app:
-        serviceName: unpoller
+      main:
+        serviceName: main
         endpoints:
           - port: http
             scheme: http
             path: /metrics
-            interval: 15s
-            scrapeTimeout: 5s
+            interval: 5m
+            scrapeTimeout: 30s
