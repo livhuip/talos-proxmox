@@ -93,7 +93,7 @@ spec:
             paths:
               - path: /
                 service:
-                  identifier: hbbr
+                  identifier: relay
                   port: 21117
         tls:
           - hosts:
@@ -106,7 +106,7 @@ spec:
             paths:
               - path: /
                 service:
-                  identifier: hbbs
+                  identifier: server
                   port: 21116
         tls:
           - hosts:
