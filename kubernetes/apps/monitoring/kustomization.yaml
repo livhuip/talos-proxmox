@@ -20,6 +20,7 @@ resources:
   - ./smartctl-exporter/ks.yaml
   # - ./unpoller/ks.yaml
   - ./speedtest-exporter/ks.yaml
+  - ./pihole/ks.yaml
 # components:
 #   - ../../components/namespace
 #   - ../../components/flux/alerts
