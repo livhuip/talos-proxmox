@@ -5,4 +5,4 @@ kind: Kustomization
 resources:
   - ./l2.yaml
   - ./pool.yaml
-  # - ./l3.yaml
+  - ./l3.yaml
