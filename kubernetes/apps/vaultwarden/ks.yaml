@@ -58,11 +58,11 @@ spec:
     namespace: flux-system
   targetNamespace: vaultwarden
   dependsOn:
-    # - name: crunchy-postgres
-    #   namespace: database
+    - name: crunchy-postgres
+      namespace: database
     - name: onepassword
       namespace: external-secrets
-    - name: haproxy
-      namespace: rook-ceph-external
+    # - name: haproxy
+    #   namespace: rook-ceph-external
     - name: volsync
       namespace: storage
