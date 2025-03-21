@@ -18,5 +18,5 @@ spec:
             values:
               - will-match-and-announce-all-services
       neighbors:
-        - peerAddress: 10.0.10.1/24
+        - peerAddress: 10.0.10.5/24
           peerASN: 64513
