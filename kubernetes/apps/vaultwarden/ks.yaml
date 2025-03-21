@@ -50,15 +50,15 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: vaultwarden
-  # dependsOn:
-  #   - name: crunchy-postgres
-  #     namespace: database
-  #   - name: onepassword
-  #     namespace: external-secrets
-  # - name: haproxy
-  #   namespace: rook-ceph-external
-  # - name: volsync
-  #   namespace: storage
+  dependsOn:
+    - name: crunchy-postgres
+      namespace: database
+    - name: onepassword
+      namespace: external-secrets
+    - name: haproxy
+      namespace: rook-ceph-external
+    - name: volsync
+      namespace: storage
   postBuild:
     substitute:
       APP: *app
