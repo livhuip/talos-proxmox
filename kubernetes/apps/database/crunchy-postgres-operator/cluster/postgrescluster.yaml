@@ -27,7 +27,7 @@ spec:
         name: repo1
         s3:
           bucket: postgresql-cunchy
-          endpoint: http://${SECRET_S3_ENDPOINT}
+          endpoint: https://minio.hayani.xyz:9000
           region: "us-east-1"
 
   metadata:
