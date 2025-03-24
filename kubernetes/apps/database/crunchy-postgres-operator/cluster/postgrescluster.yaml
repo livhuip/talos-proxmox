@@ -27,7 +27,7 @@ spec:
         name: repo1
         s3:
           bucket: postgresql-cunchy
-          endpoint: http://${SECRET_S3_ENDPOINT}:9000
+          endpoint: http://${SECRET_S3_ENDPOINT}
           region: "us-east-1"
 
   metadata:
@@ -122,7 +122,7 @@ spec:
         - name: repo1 # Minio
           s3:
             bucket: postgresql-cunchy
-            endpoint: http://${SECRET_S3_ENDPOINT}:9000
+            endpoint: http://${SECRET_S3_ENDPOINT}
             region: "us-east-1"
           schedules:
             full: "0 1 * * 0" # Sunday at 01:00

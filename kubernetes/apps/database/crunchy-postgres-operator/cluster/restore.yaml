@@ -15,7 +15,6 @@ spec:
   service:
     type: LoadBalancer
 
-
   patroni:
     dynamicConfiguration:
       synchronous_mode: true
