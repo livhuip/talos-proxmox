@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: cilium
-      version: 1.17.1
+      version: 1.17.2
       sourceRef:
         kind: HelmRepository
         name: cilium
@@ -20,7 +20,6 @@ spec:
   upgrade:
     cleanupOnFail: true
     remediation:
-      strategy: rollback
       retries: 3
   valuesFrom:
     - kind: ConfigMap
@@ -28,32 +27,3 @@ spec:
   values:
     operator:
       tolerations: []
-  # Enable Hubble, Hubble Relay and Hubble UI
-  #   hubble:
-  #     enabled: true
-  #     metrics:
-  #       enabled:
-  #         - dns:query
-  #         - drop
-  #         - tcp
-  #         - flow
-  #         - port-distribution
-  #         - icmp
-  #         - http
-  #       serviceMonitor:
-  #         enabled: true
-  #       dashboards:
-  #         enabled: true
-  #     relay:
-  #       enabled: true
-  #       rollOutPods: true
-  #       prometheus:
-  #         serviceMonitor:
-  #           enabled: true
-  #     ui:
-  #       enabled: true
-  #       rollOutPods: true
-  #       ingress:
-  #         enabled: true
-  #         className: internal
-  #         hosts: ["hubble.devbu.io"]
