@@ -6,9 +6,7 @@ metadata:
   name: &name postgres-16-vector
 spec:
   postgresVersion: 16
-  image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres:ubi8-16.2-0
-
-  #ghcr.io/drag0n141/cdpgvector:0.4.0@sha256:81efdee3ac505369525b4a2a3ca2fcf9d7e0f2f09242632fa9700f5f2bbf63c5
+  image: ghcr.io/drag0n141/cdpgvector:0.4.0@sha256:81efdee3ac505369525b4a2a3ca2fcf9d7e0f2f09242632fa9700f5f2bbf63c5
 
   # dataSource:
   #   pgbackrest:
