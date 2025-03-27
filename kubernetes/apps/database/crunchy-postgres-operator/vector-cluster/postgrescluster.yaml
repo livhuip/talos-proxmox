@@ -85,12 +85,12 @@ spec:
       options: "SUPERUSER"
       password:
         type: AlphaNumeric
-    - name: "immich"
-      databases:
-        - "immich"
-      options: SUPERUSER
-      password:
-        type: AlphaNumeric
+    # - name: "immich"
+    #   databases:
+    #     - "immich"
+    #   options: SUPERUSER
+    #   password:
+    #     type: AlphaNumeric
 
   backups:
     pgbackrest:
