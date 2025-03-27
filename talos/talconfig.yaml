@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/master/pkg/config/schemas/talconfig.json
 ---
 # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-talosVersion: v1.9.5
+talosVersion: v1.9.4
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
 kubernetesVersion: v1.32.2
 
@@ -80,40 +80,40 @@ nodes:
         mtu: 1500
         vip:
           ip: "10.0.10.100"
-  - hostname: "talos-worker-01"
-    ipAddress: "10.0.10.121"
-    installDisk: "/dev/sda"
-    machineSpec:
-      secureboot: false
-    talosImageURL: factory.talos.dev/installer/dc7b152cb3ea99b821fcb7340ce7168313ce393d663740b791c36f6e95fc8586
-    controlPlane: false
-    networkInterfaces:
-      - deviceSelector:
-          hardwareAddr: "a6:c4:b4:ab:d4:44"
-        dhcp: false
-        addresses:
-          - "10.0.10.121/24"
-        routes:
-          - network: "0.0.0.0/0"
-            gateway: "10.0.10.1"
-        mtu: 1500
-  - hostname: "talos-worker-02"
-    ipAddress: "10.0.10.122"
-    installDisk: "/dev/sda"
-    machineSpec:
-      secureboot: false
-    talosImageURL: factory.talos.dev/installer/dc7b152cb3ea99b821fcb7340ce7168313ce393d663740b791c36f6e95fc8586
-    controlPlane: false
-    networkInterfaces:
-      - deviceSelector:
-          hardwareAddr: "52:75:0b:34:e5:82"
-        dhcp: false
-        addresses:
-          - "10.0.10.122/24"
-        routes:
-          - network: "0.0.0.0/0"
-            gateway: "10.0.10.1"
-        mtu: 1500
+  # - hostname: "talos-worker-01"
+  #   ipAddress: "10.0.10.121"
+  #   installDisk: "/dev/sda"
+  #   machineSpec:
+  #     secureboot: false
+  #   talosImageURL: factory.talos.dev/installer/dc7b152cb3ea99b821fcb7340ce7168313ce393d663740b791c36f6e95fc8586
+  #   controlPlane: false
+  #   networkInterfaces:
+  #     - deviceSelector:
+  #         hardwareAddr: "a6:c4:b4:ab:d4:44"
+  #       dhcp: false
+  #       addresses:
+  #         - "10.0.10.121/24"
+  #       routes:
+  #         - network: "0.0.0.0/0"
+  #           gateway: "10.0.10.1"
+  #       mtu: 1500
+  # - hostname: "talos-worker-02"
+  #   ipAddress: "10.0.10.122"
+  #   installDisk: "/dev/sda"
+  #   machineSpec:
+  #     secureboot: false
+  #   talosImageURL: factory.talos.dev/installer/dc7b152cb3ea99b821fcb7340ce7168313ce393d663740b791c36f6e95fc8586
+  #   controlPlane: false
+  #   networkInterfaces:
+  #     - deviceSelector:
+  #         hardwareAddr: "52:75:0b:34:e5:82"
+  #       dhcp: false
+  #       addresses:
+  #         - "10.0.10.122/24"
+  #       routes:
+  #         - network: "0.0.0.0/0"
+  #           gateway: "10.0.10.1"
+  #       mtu: 1500
 
 # Global patches
 patches:
