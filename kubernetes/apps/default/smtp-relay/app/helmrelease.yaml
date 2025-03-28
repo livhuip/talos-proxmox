@@ -202,6 +202,6 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /cache
-      # tls:
-      #   type: secret
-      #   name: smtp-relay-tls
+      tls:
+        type: secret
+        name: smtp-relay-tls
