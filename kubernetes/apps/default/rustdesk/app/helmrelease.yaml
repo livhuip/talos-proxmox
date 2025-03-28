@@ -84,33 +84,33 @@ spec:
             enabled: true
             port: 21118
             protocol: "TCP"
-    ingress:
-      hbbr:
-        enabled: true
-        className: internal
-        hosts:
-          - host: &host remoterelay.${SECRET_DOMAIN}
-            paths:
-              - path: /
-                service:
-                  identifier: relay
-                  port: 21117
-        tls:
-          - hosts:
-              - *host
-      hbbs:
-        enabled: true
-        className: internal
-        hosts:
-          - host: &host remoteserver.${SECRET_DOMAIN}
-            paths:
-              - path: /
-                service:
-                  identifier: server
-                  port: 21116
-        tls:
-          - hosts:
-              - *host
+    # ingress:
+    #   hbbr:
+    #     enabled: true
+    #     className: internal
+    #     hosts:
+    #       - host: &host remoterelay.${SECRET_DOMAIN}
+    #         paths:
+    #           - path: /
+    #             service:
+    #               identifier: relay
+    #               port: 21117
+    #     tls:
+    #       - hosts:
+    #           - *host
+    #   hbbs:
+    #     enabled: true
+    #     className: internal
+    #     hosts:
+    #       - host: &host remoteserver.${SECRET_DOMAIN}
+    #         paths:
+    #           - path: /
+    #             service:
+    #               identifier: server
+    #               port: 21116
+    #     tls:
+    #       - hosts:
+    #           - *host
     persistence:
       data:
         enabled: true
